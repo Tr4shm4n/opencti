@@ -24,8 +24,15 @@ import MarkDownField from '../../../../components/MarkDownField';
 import ConfidenceField from '../../common/form/ConfidenceField';
 import { insertNode } from '../../../../utils/Store';
 import ExternalReferencesField from '../../common/form/ExternalReferencesField';
+import Security, { KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT } from '../../../../utils/Security';
+import ObjectGroupField from '../../common/form/ObjectGroupField';
 
 const styles = (theme) => ({
+  restrictions: {
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: theme.palette.background.nav,
+  },
   drawerPaper: {
     minHeight: '100vh',
     width: '50%',
@@ -105,6 +112,7 @@ class IntrusionSetCreation extends Component {
       R.assoc('createdBy', values.createdBy?.value),
       R.assoc('objectMarking', R.pluck('value', values.objectMarking)),
       R.assoc('objectLabel', R.pluck('value', values.objectLabel)),
+      R.assoc('objectGroup', R.pluck('value', values.objectGroup)),
       R.assoc('externalReferences', R.pluck('value', values.externalReferences)),
     )(values);
     commitMutation({
@@ -175,6 +183,7 @@ class IntrusionSetCreation extends Component {
                 description: '',
                 createdBy: '',
                 objectMarking: [],
+                objectGroup: [],
                 objectLabel: [],
                 externalReferences: [],
               }}
@@ -190,6 +199,11 @@ class IntrusionSetCreation extends Component {
                 values,
               }) => (
                 <Form style={{ margin: '20px 0 20px 0' }}>
+                  <Security needs={[KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT]}>
+                    <div className={classes.restrictions}>
+                      <ObjectGroupField name="objectGroup" style={{ width: '100%' }}/>
+                    </div>
+                  </Security>
                   <Field
                     component={TextField}
                     variant="standard"

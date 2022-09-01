@@ -44,6 +44,7 @@ export const RULE_MANAGER_USER = {
   origin: {},
   roles: [{ name: ROLE_ADMINISTRATOR }],
   capabilities: [{ name: BYPASS }],
+  groups: [],
   allowed_marking: [],
   all_marking: [],
 };

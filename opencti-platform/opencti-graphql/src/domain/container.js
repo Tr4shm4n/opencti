@@ -23,12 +23,13 @@ export const findAll = async (user, args) => {
 
 // Entities tab
 export const objects = async (user, containerId, args) => {
-  const key = buildRefRelationKey(RELATION_OBJECT);
+  // const key = buildRefRelationKey(RELATION_OBJECT);
   let types = ['Stix-Core-Object', 'stix-core-relationship', 'stix-sighting-relationship', 'stix-cyber-observable-relationship'];
   if (args.types) {
     types = args.types;
   }
-  const filters = [{ key, values: [containerId] }, ...(args.filters || [])];
+  // const filters = [{ key, values: [containerId] }, ...(args.filters || [])];
+  const filters = args.filters || [];
   if (args.all) {
     return paginateAllThings(user, types, R.assoc('filters', filters, args));
   }

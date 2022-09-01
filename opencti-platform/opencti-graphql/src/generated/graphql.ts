@@ -98,6 +98,7 @@ export type Artifact = BasicObject & HashedObservable & StixCoreObject & StixCyb
   jobs?: Maybe<Array<Maybe<Work>>>;
   mime_type?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -261,6 +262,7 @@ export type AttackPattern = BasicObject & StixCoreObject & StixDomainObject & St
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -516,6 +518,7 @@ export type AutonomousSystem = BasicObject & StixCoreObject & StixCyberObservabl
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
   number?: Maybe<Scalars['Int']>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -667,6 +670,7 @@ export type BankAccount = BasicObject & StixCoreObject & StixCyberObservable & S
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -840,6 +844,7 @@ export type Campaign = BasicObject & StixCoreObject & StixDomainObject & StixObj
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objective?: Maybe<Scalars['String']>;
@@ -1048,6 +1053,7 @@ export enum Capabilities {
   KnowledgeKngetexportKnaskexport = 'KNOWLEDGE_KNGETEXPORT_KNASKEXPORT',
   KnowledgeKnupdate = 'KNOWLEDGE_KNUPDATE',
   KnowledgeKnupdateKndelete = 'KNOWLEDGE_KNUPDATE_KNDELETE',
+  KnowledgeKnupdateKngrouprestrict = 'KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT',
   KnowledgeKnupload = 'KNOWLEDGE_KNUPLOAD',
   Modules = 'MODULES',
   ModulesModmanage = 'MODULES_MODMANAGE',
@@ -1107,6 +1113,7 @@ export type Channel = BasicObject & StixCoreObject & StixDomainObject & StixObje
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -1322,6 +1329,7 @@ export type City = BasicObject & Location & StixCoreObject & StixDomainObject & 
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -1541,6 +1549,7 @@ export type Container = {
   lang?: Maybe<Scalars['String']>;
   modified?: Maybe<Scalars['DateTime']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objects?: Maybe<StixObjectOrStixRelationshipConnection>;
@@ -1779,6 +1788,7 @@ export type Country = BasicObject & Location & StixCoreObject & StixDomainObject
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -1966,6 +1976,7 @@ export type CourseOfAction = BasicObject & StixCoreObject & StixDomainObject & S
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -2178,6 +2189,7 @@ export type CryptocurrencyWallet = BasicObject & StixCoreObject & StixCyberObser
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -2324,6 +2336,7 @@ export type CryptographicKey = BasicObject & StixCoreObject & StixCyberObservabl
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -2480,6 +2493,7 @@ export type Directory = BasicObject & StixCoreObject & StixCyberObservable & Sti
   jobs?: Maybe<Array<Maybe<Work>>>;
   mtime?: Maybe<Scalars['DateTime']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -2643,6 +2657,7 @@ export type DomainName = BasicObject & StixCoreObject & StixCyberObservable & St
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -2820,6 +2835,7 @@ export type EmailAddr = BasicObject & StixCoreObject & StixCyberObservable & Sti
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -2972,6 +2988,7 @@ export type EmailMessage = BasicObject & StixCoreObject & StixCyberObservable & 
   jobs?: Maybe<Array<Maybe<Work>>>;
   message_id?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -3128,6 +3145,7 @@ export type EmailMimePartType = BasicObject & StixCoreObject & StixCyberObservab
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -3282,6 +3300,7 @@ export type Event = BasicObject & StixCoreObject & StixDomainObject & StixObject
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -3808,6 +3827,7 @@ export type HashedObservable = {
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -3948,6 +3968,7 @@ export type Hostname = BasicObject & StixCoreObject & StixCyberObservable & Stix
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -4094,6 +4115,7 @@ export type IPv4Addr = BasicObject & StixCoreObject & StixCyberObservable & Stix
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -4242,6 +4264,7 @@ export type IPv6Addr = BasicObject & StixCoreObject & StixCyberObservable & Stix
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -4427,6 +4450,7 @@ export type Identity = {
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -4621,6 +4645,7 @@ export type Incident = BasicObject & StixCoreObject & StixDomainObject & StixObj
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objective?: Maybe<Scalars['String']>;
@@ -4844,6 +4869,7 @@ export type Indicator = BasicObject & StixCoreObject & StixDomainObject & StixOb
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observables?: Maybe<StixCyberObservableConnection>;
@@ -5102,6 +5128,7 @@ export type Individual = BasicObject & Identity & StixCoreObject & StixDomainObj
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -5344,6 +5371,7 @@ export type Infrastructure = BasicObject & StixCoreObject & StixDomainObject & S
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -5594,6 +5622,7 @@ export type IntrusionSet = BasicObject & StixCoreObject & StixDomainObject & Sti
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -5992,6 +6021,7 @@ export type Language = BasicObject & StixCoreObject & StixDomainObject & StixObj
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -6189,6 +6219,7 @@ export type Location = {
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -6463,6 +6494,7 @@ export type MacAddr = BasicObject & StixCoreObject & StixCyberObservable & StixO
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -6623,6 +6655,7 @@ export type Malware = BasicObject & StixCoreObject & StixDomainObject & StixObje
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -6916,6 +6949,24 @@ export enum MarkingDefinitionsOrdering {
   XOpenctiColor = 'x_opencti_color',
   XOpenctiOrder = 'x_opencti_order'
 }
+
+export type MarkingGroup = {
+  __typename?: 'MarkingGroup';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type MarkingGroupConnection = {
+  __typename?: 'MarkingGroupConnection';
+  edges?: Maybe<Array<Maybe<MarkingGroupEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type MarkingGroupEdge = {
+  __typename?: 'MarkingGroupEdge';
+  cursor: Scalars['String'];
+  node: MarkingGroup;
+};
 
 export type MessagesStats = {
   __typename?: 'MessagesStats';
@@ -8042,6 +8093,7 @@ export type Mutex = BasicObject & StixCoreObject & StixCyberObservable & StixObj
   jobs?: Maybe<Array<Maybe<Work>>>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -8195,6 +8247,7 @@ export type Narrative = BasicObject & StixCoreObject & StixDomainObject & StixOb
   name: Scalars['String'];
   narrative_types?: Maybe<Array<Maybe<Scalars['String']>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -8377,6 +8430,7 @@ export type NetworkTraffic = BasicObject & StixCoreObject & StixCyberObservable 
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -8542,6 +8596,7 @@ export type Note = BasicObject & Container & StixCoreObject & StixDomainObject &
   lang?: Maybe<Scalars['String']>;
   modified?: Maybe<Scalars['DateTime']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objects?: Maybe<StixObjectOrStixRelationshipConnection>;
@@ -8800,6 +8855,7 @@ export type ObservedData = BasicObject & Container & StixCoreObject & StixDomain
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
   number_observed: Scalars['Int'];
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objects?: Maybe<StixObjectOrStixRelationshipConnection>;
@@ -9045,6 +9101,7 @@ export type Opinion = BasicObject & Container & StixCoreObject & StixDomainObjec
   lang?: Maybe<Scalars['String']>;
   modified?: Maybe<Scalars['DateTime']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objects?: Maybe<StixObjectOrStixRelationshipConnection>;
@@ -9296,6 +9353,7 @@ export type Organization = BasicObject & Identity & StixCoreObject & StixDomainO
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -9552,6 +9610,7 @@ export type PaymentCard = BasicObject & StixCoreObject & StixCyberObservable & S
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -9700,6 +9759,7 @@ export type PhoneNumber = BasicObject & StixCoreObject & StixCyberObservable & S
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -9854,6 +9914,7 @@ export type Position = BasicObject & Location & StixCoreObject & StixDomainObjec
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -10074,6 +10135,7 @@ export type Process = BasicObject & StixCoreObject & StixCyberObservable & StixO
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -11994,6 +12056,7 @@ export type Region = BasicObject & Location & StixCoreObject & StixDomainObject 
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -12217,6 +12280,7 @@ export type Report = BasicObject & Container & StixCoreObject & StixDomainObject
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   objects?: Maybe<StixObjectOrStixRelationshipConnection>;
@@ -12352,6 +12416,7 @@ export type ReportAddInput = {
   lang?: InputMaybe<Scalars['String']>;
   modified?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
+  objectGroup?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   objectLabel?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   objectMarking?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   objects?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -12625,6 +12690,7 @@ export type Sector = BasicObject & Identity & StixCoreObject & StixDomainObject 
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -12910,6 +12976,7 @@ export type Software = BasicObject & StixCoreObject & StixCyberObservable & Stix
   languages?: Maybe<Array<Maybe<Scalars['String']>>>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -13140,6 +13207,7 @@ export type StixCoreObject = {
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -13253,6 +13321,8 @@ export type StixCoreObjectEditMutations = {
   relationAdd?: Maybe<StixMetaRelationship>;
   relationDelete?: Maybe<StixCoreObject>;
   relationsAdd?: Maybe<StixCoreObject>;
+  restrictionGroupAdd?: Maybe<StixCoreObject>;
+  restrictionGroupDelete?: Maybe<StixCoreObject>;
 };
 
 
@@ -13296,6 +13366,16 @@ export type StixCoreObjectEditMutationsRelationDeleteArgs = {
 
 export type StixCoreObjectEditMutationsRelationsAddArgs = {
   input?: InputMaybe<StixMetaRelationshipsAddInput>;
+};
+
+
+export type StixCoreObjectEditMutationsRestrictionGroupAddArgs = {
+  groupId: Scalars['ID'];
+};
+
+
+export type StixCoreObjectEditMutationsRestrictionGroupDeleteArgs = {
+  groupId: Scalars['ID'];
 };
 
 export type StixCoreObjectOrStixCoreRelationship = Artifact | AttackPattern | AutonomousSystem | BankAccount | Campaign | Channel | City | Country | CourseOfAction | CryptocurrencyWallet | CryptographicKey | Directory | DomainName | EmailAddr | EmailMessage | EmailMimePartType | Event | Hostname | IPv4Addr | IPv6Addr | Incident | Indicator | Individual | Infrastructure | IntrusionSet | Language | MacAddr | Malware | Mutex | Narrative | NetworkTraffic | Note | ObservedData | Opinion | Organization | PaymentCard | PhoneNumber | Position | Process | Region | Report | Sector | Software | StixCoreRelationship | StixFile | Text | ThreatActor | Tool | Url | UserAccount | UserAgent | Vulnerability | WindowsRegistryKey | WindowsRegistryValueType | X509Certificate;
@@ -13556,6 +13636,7 @@ export type StixCyberObservable = {
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -13927,6 +14008,7 @@ export type StixDomainObject = {
   lang?: Maybe<Scalars['String']>;
   modified?: Maybe<Scalars['DateTime']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -14200,6 +14282,7 @@ export type StixFile = BasicObject & HashedObservable & StixCoreObject & StixCyb
   name?: Maybe<Scalars['String']>;
   name_enc?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -14995,6 +15078,7 @@ export type System = BasicObject & Identity & StixCoreObject & StixDomainObject 
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -15352,6 +15436,7 @@ export type Text = BasicObject & StixCoreObject & StixCyberObservable & StixObje
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -15508,6 +15593,7 @@ export type ThreatActor = BasicObject & StixCoreObject & StixDomainObject & Stix
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -15742,6 +15828,7 @@ export type Tool = BasicObject & StixCoreObject & StixDomainObject & StixObject 
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -15950,6 +16037,7 @@ export type Url = BasicObject & StixCoreObject & StixCyberObservable & StixObjec
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -16144,6 +16232,7 @@ export type UserAccount = BasicObject & StixCoreObject & StixCyberObservable & S
   is_service_account?: Maybe<Scalars['Boolean']>;
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -16315,6 +16404,7 @@ export type UserAgent = BasicObject & StixCoreObject & StixCyberObservable & Sti
   is_inferred: Scalars['Boolean'];
   jobs?: Maybe<Array<Maybe<Work>>>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -16637,6 +16727,7 @@ export type Vulnerability = BasicObject & StixCoreObject & StixDomainObject & St
   modified?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observedData?: Maybe<ObservedDataConnection>;
@@ -16829,6 +16920,7 @@ export type WindowsRegistryKey = BasicObject & StixCoreObject & StixCyberObserva
   modified_time?: Maybe<Scalars['DateTime']>;
   notes?: Maybe<NoteConnection>;
   number_of_subkeys?: Maybe<Scalars['Int']>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -16979,6 +17071,7 @@ export type WindowsRegistryValueType = BasicObject & StixCoreObject & StixCyberO
   jobs?: Maybe<Array<Maybe<Work>>>;
   name?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -17350,6 +17443,7 @@ export type X509Certificate = BasicObject & HashedObservable & StixCoreObject & 
   key_usage?: Maybe<Scalars['String']>;
   name_constraints?: Maybe<Scalars['String']>;
   notes?: Maybe<NoteConnection>;
+  objectGroup?: Maybe<MarkingGroupConnection>;
   objectLabel?: Maybe<LabelConnection>;
   objectMarking?: Maybe<MarkingDefinitionConnection>;
   observable_value: Scalars['String'];
@@ -17860,6 +17954,9 @@ export type ResolversTypes = ResolversObject<{
   MarkingDefinitionsFilter: MarkingDefinitionsFilter;
   MarkingDefinitionsFiltering: MarkingDefinitionsFiltering;
   MarkingDefinitionsOrdering: MarkingDefinitionsOrdering;
+  MarkingGroup: ResolverTypeWrapper<MarkingGroup>;
+  MarkingGroupConnection: ResolverTypeWrapper<MarkingGroupConnection>;
+  MarkingGroupEdge: ResolverTypeWrapper<MarkingGroupEdge>;
   MessagesStats: ResolverTypeWrapper<MessagesStats>;
   Module: ResolverTypeWrapper<Module>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -18413,6 +18510,9 @@ export type ResolversParentTypes = ResolversObject<{
   MarkingDefinitionEdge: MarkingDefinitionEdge;
   MarkingDefinitionEditMutations: MarkingDefinitionEditMutations;
   MarkingDefinitionsFiltering: MarkingDefinitionsFiltering;
+  MarkingGroup: MarkingGroup;
+  MarkingGroupConnection: MarkingGroupConnection;
+  MarkingGroupEdge: MarkingGroupEdge;
   MessagesStats: MessagesStats;
   Module: Module;
   Mutation: {};
@@ -18767,6 +18867,7 @@ export type ArtifactResolvers<ContextType = any, ParentType extends ResolversPar
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<ArtifactJobsArgs>>;
   mime_type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ArtifactNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -18815,6 +18916,7 @@ export type AttackPatternResolvers<ContextType = any, ParentType extends Resolve
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<AttackPatternNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<AttackPatternObservedDataArgs>>;
@@ -18906,6 +19008,7 @@ export type AutonomousSystemResolvers<ContextType = any, ParentType extends Reso
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<AutonomousSystemNotesArgs>>;
   number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -18946,6 +19049,7 @@ export type BankAccountResolvers<ContextType = any, ParentType extends Resolvers
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<BankAccountJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<BankAccountNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19010,6 +19114,7 @@ export type CampaignResolvers<ContextType = any, ParentType extends ResolversPar
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<CampaignNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objective?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -19102,6 +19207,7 @@ export type ChannelResolvers<ContextType = any, ParentType extends ResolversPare
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ChannelNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<ChannelObservedDataArgs>>;
@@ -19158,6 +19264,7 @@ export type CityResolvers<ContextType = any, ParentType extends ResolversParentT
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<CityNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<CityObservedDataArgs>>;
@@ -19254,6 +19361,7 @@ export type ContainerResolvers<ContextType = any, ParentType extends ResolversPa
   lang?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ContainerNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objects?: Resolver<Maybe<ResolversTypes['StixObjectOrStixRelationshipConnection']>, ParentType, ContextType, Partial<ContainerObjectsArgs>>;
@@ -19328,6 +19436,7 @@ export type CountryResolvers<ContextType = any, ParentType extends ResolversPare
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<CountryNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<CountryObservedDataArgs>>;
@@ -19395,6 +19504,7 @@ export type CourseOfActionResolvers<ContextType = any, ParentType extends Resolv
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<CourseOfActionNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<CourseOfActionObservedDataArgs>>;
@@ -19457,6 +19567,7 @@ export type CryptocurrencyWalletResolvers<ContextType = any, ParentType extends 
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<CryptocurrencyWalletJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<CryptocurrencyWalletNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19494,6 +19605,7 @@ export type CryptographicKeyResolvers<ContextType = any, ParentType extends Reso
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<CryptographicKeyJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<CryptographicKeyNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19544,6 +19656,7 @@ export type DirectoryResolvers<ContextType = any, ParentType extends ResolversPa
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<DirectoryJobsArgs>>;
   mtime?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<DirectoryNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19594,6 +19707,7 @@ export type DomainNameResolvers<ContextType = any, ParentType extends ResolversP
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<DomainNameJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<DomainNameNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19646,6 +19760,7 @@ export type EmailAddrResolvers<ContextType = any, ParentType extends ResolversPa
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<EmailAddrJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<EmailAddrNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19688,6 +19803,7 @@ export type EmailMessageResolvers<ContextType = any, ParentType extends Resolver
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<EmailMessageJobsArgs>>;
   message_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<EmailMessageNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19729,6 +19845,7 @@ export type EmailMimePartTypeResolvers<ContextType = any, ParentType extends Res
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<EmailMimePartTypeJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<EmailMimePartTypeNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -19772,6 +19889,7 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<EventNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<EventObservedDataArgs>>;
@@ -19999,6 +20117,7 @@ export type HashedObservableResolvers<ContextType = any, ParentType extends Reso
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<HashedObservableJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<HashedObservableNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -20033,6 +20152,7 @@ export type HostnameResolvers<ContextType = any, ParentType extends ResolversPar
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<HostnameJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<HostnameNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -20070,6 +20190,7 @@ export type IPv4AddrResolvers<ContextType = any, ParentType extends ResolversPar
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<IPv4AddrJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IPv4AddrNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -20107,6 +20228,7 @@ export type IPv6AddrResolvers<ContextType = any, ParentType extends ResolversPar
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<IPv6AddrJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IPv6AddrNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -20152,6 +20274,7 @@ export type IdentityResolvers<ContextType = any, ParentType extends ResolversPar
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IdentityNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<IdentityObservedDataArgs>>;
@@ -20218,6 +20341,7 @@ export type IncidentResolvers<ContextType = any, ParentType extends ResolversPar
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IncidentNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objective?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -20290,6 +20414,7 @@ export type IndicatorResolvers<ContextType = any, ParentType extends ResolversPa
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IndicatorNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observables?: Resolver<Maybe<ResolversTypes['StixCyberObservableConnection']>, ParentType, ContextType, Partial<IndicatorObservablesArgs>>;
@@ -20365,6 +20490,7 @@ export type IndividualResolvers<ContextType = any, ParentType extends ResolversP
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IndividualNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<IndividualObservedDataArgs>>;
@@ -20451,6 +20577,7 @@ export type InfrastructureResolvers<ContextType = any, ParentType extends Resolv
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<InfrastructureNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<InfrastructureObservedDataArgs>>;
@@ -20539,6 +20666,7 @@ export type IntrusionSetResolvers<ContextType = any, ParentType extends Resolver
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<IntrusionSetNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<IntrusionSetObservedDataArgs>>;
@@ -20687,6 +20815,7 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<LanguageNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<LanguageObservedDataArgs>>;
@@ -20758,6 +20887,7 @@ export type LocationResolvers<ContextType = any, ParentType extends ResolversPar
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<LocationNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<LocationObservedDataArgs>>;
@@ -20849,6 +20979,7 @@ export type MacAddrResolvers<ContextType = any, ParentType extends ResolversPare
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<MacAddrJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<MacAddrNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -20900,6 +21031,7 @@ export type MalwareResolvers<ContextType = any, ParentType extends ResolversPare
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<MalwareNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<MalwareObservedDataArgs>>;
@@ -20982,6 +21114,24 @@ export type MarkingDefinitionEditMutationsResolvers<ContextType = any, ParentTyp
   contextPatch?: Resolver<Maybe<ResolversTypes['MarkingDefinition']>, ParentType, ContextType, Partial<MarkingDefinitionEditMutationsContextPatchArgs>>;
   delete?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   fieldPatch?: Resolver<Maybe<ResolversTypes['MarkingDefinition']>, ParentType, ContextType, RequireFields<MarkingDefinitionEditMutationsFieldPatchArgs, 'input'>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type MarkingGroupResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarkingGroup'] = ResolversParentTypes['MarkingGroup']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type MarkingGroupConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarkingGroupConnection'] = ResolversParentTypes['MarkingGroupConnection']> = ResolversObject<{
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['MarkingGroupEdge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type MarkingGroupEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['MarkingGroupEdge'] = ResolversParentTypes['MarkingGroupEdge']> = ResolversObject<{
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['MarkingGroup'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -21181,6 +21331,7 @@ export type MutexResolvers<ContextType = any, ParentType extends ResolversParent
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<MutexJobsArgs>>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<MutexNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -21225,6 +21376,7 @@ export type NarrativeResolvers<ContextType = any, ParentType extends ResolversPa
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   narrative_types?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<NarrativeNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<NarrativeObservedDataArgs>>;
@@ -21281,6 +21433,7 @@ export type NetworkTrafficResolvers<ContextType = any, ParentType extends Resolv
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<NetworkTrafficJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<NetworkTrafficNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -21328,6 +21481,7 @@ export type NoteResolvers<ContextType = any, ParentType extends ResolversParentT
   lang?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<NoteNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objects?: Resolver<Maybe<ResolversTypes['StixObjectOrStixRelationshipConnection']>, ParentType, ContextType, Partial<NoteObjectsArgs>>;
@@ -21408,6 +21562,7 @@ export type ObservedDataResolvers<ContextType = any, ParentType extends Resolver
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ObservedDataNotesArgs>>;
   number_observed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objects?: Resolver<Maybe<ResolversTypes['StixObjectOrStixRelationshipConnection']>, ParentType, ContextType, Partial<ObservedDataObjectsArgs>>;
@@ -21473,6 +21628,7 @@ export type OpinionResolvers<ContextType = any, ParentType extends ResolversPare
   lang?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<OpinionNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objects?: Resolver<Maybe<ResolversTypes['StixObjectOrStixRelationshipConnection']>, ParentType, ContextType, Partial<OpinionObjectsArgs>>;
@@ -21541,6 +21697,7 @@ export type OrganizationResolvers<ContextType = any, ParentType extends Resolver
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<OrganizationNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<OrganizationObservedDataArgs>>;
@@ -21635,6 +21792,7 @@ export type PaymentCardResolvers<ContextType = any, ParentType extends Resolvers
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<PaymentCardJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<PaymentCardNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -21671,6 +21829,7 @@ export type PhoneNumberResolvers<ContextType = any, ParentType extends Resolvers
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<PhoneNumberJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<PhoneNumberNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -21716,6 +21875,7 @@ export type PositionResolvers<ContextType = any, ParentType extends ResolversPar
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<PositionNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<PositionObservedDataArgs>>;
@@ -21784,6 +21944,7 @@ export type ProcessResolvers<ContextType = any, ParentType extends ResolversPare
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<ProcessJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ProcessNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -22087,6 +22248,7 @@ export type RegionResolvers<ContextType = any, ParentType extends ResolversParen
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<RegionNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<RegionObservedDataArgs>>;
@@ -22154,6 +22316,7 @@ export type ReportResolvers<ContextType = any, ParentType extends ResolversParen
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ReportNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   objects?: Resolver<Maybe<ResolversTypes['StixObjectOrStixRelationshipConnection']>, ParentType, ContextType, Partial<ReportObjectsArgs>>;
@@ -22336,6 +22499,7 @@ export type SectorResolvers<ContextType = any, ParentType extends ResolversParen
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<SectorNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<SectorObservedDataArgs>>;
@@ -22458,6 +22622,7 @@ export type SoftwareResolvers<ContextType = any, ParentType extends ResolversPar
   languages?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<SoftwareNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -22539,6 +22704,7 @@ export type StixCoreObjectResolvers<ContextType = any, ParentType extends Resolv
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<StixCoreObjectJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<StixCoreObjectNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<StixCoreObjectObservedDataArgs>>;
@@ -22576,6 +22742,8 @@ export type StixCoreObjectEditMutationsResolvers<ContextType = any, ParentType e
   relationAdd?: Resolver<Maybe<ResolversTypes['StixMetaRelationship']>, ParentType, ContextType, Partial<StixCoreObjectEditMutationsRelationAddArgs>>;
   relationDelete?: Resolver<Maybe<ResolversTypes['StixCoreObject']>, ParentType, ContextType, RequireFields<StixCoreObjectEditMutationsRelationDeleteArgs, 'relationship_type' | 'toId'>>;
   relationsAdd?: Resolver<Maybe<ResolversTypes['StixCoreObject']>, ParentType, ContextType, Partial<StixCoreObjectEditMutationsRelationsAddArgs>>;
+  restrictionGroupAdd?: Resolver<Maybe<ResolversTypes['StixCoreObject']>, ParentType, ContextType, RequireFields<StixCoreObjectEditMutationsRestrictionGroupAddArgs, 'groupId'>>;
+  restrictionGroupDelete?: Resolver<Maybe<ResolversTypes['StixCoreObject']>, ParentType, ContextType, RequireFields<StixCoreObjectEditMutationsRestrictionGroupDeleteArgs, 'groupId'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -22662,6 +22830,7 @@ export type StixCyberObservableResolvers<ContextType = any, ParentType extends R
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<StixCyberObservableJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<StixCyberObservableNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -22774,6 +22943,7 @@ export type StixDomainObjectResolvers<ContextType = any, ParentType extends Reso
   lang?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<StixDomainObjectNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<StixDomainObjectObservedDataArgs>>;
@@ -22849,6 +23019,7 @@ export type StixFileResolvers<ContextType = any, ParentType extends ResolversPar
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name_enc?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<StixFileNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23176,6 +23347,7 @@ export type SystemResolvers<ContextType = any, ParentType extends ResolversParen
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<SystemNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<SystemObservedDataArgs>>;
@@ -23311,6 +23483,7 @@ export type TextResolvers<ContextType = any, ParentType extends ResolversParentT
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<TextJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<TextNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23358,6 +23531,7 @@ export type ThreatActorResolvers<ContextType = any, ParentType extends Resolvers
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ThreatActorNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<ThreatActorObservedDataArgs>>;
@@ -23436,6 +23610,7 @@ export type ToolResolvers<ContextType = any, ParentType extends ResolversParentT
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<ToolNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<ToolObservedDataArgs>>;
@@ -23500,6 +23675,7 @@ export type UrlResolvers<ContextType = any, ParentType extends ResolversParentTy
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<UrlJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<UrlNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23580,6 +23756,7 @@ export type UserAccountResolvers<ContextType = any, ParentType extends Resolvers
   is_service_account?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<UserAccountJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<UserAccountNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23617,6 +23794,7 @@ export type UserAgentResolvers<ContextType = any, ParentType extends ResolversPa
   is_inferred?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<UserAgentJobsArgs>>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<UserAgentNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23720,6 +23898,7 @@ export type VulnerabilityResolvers<ContextType = any, ParentType extends Resolve
   modified?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<VulnerabilityNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observedData?: Resolver<Maybe<ResolversTypes['ObservedDataConnection']>, ParentType, ContextType, Partial<VulnerabilityObservedDataArgs>>;
@@ -23789,6 +23968,7 @@ export type WindowsRegistryKeyResolvers<ContextType = any, ParentType extends Re
   modified_time?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<WindowsRegistryKeyNotesArgs>>;
   number_of_subkeys?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23828,6 +24008,7 @@ export type WindowsRegistryValueTypeResolvers<ContextType = any, ParentType exte
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Work']>>>, ParentType, ContextType, Partial<WindowsRegistryValueTypeJobsArgs>>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<WindowsRegistryValueTypeNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -23971,6 +24152,7 @@ export type X509CertificateResolvers<ContextType = any, ParentType extends Resol
   key_usage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name_constraints?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['NoteConnection']>, ParentType, ContextType, Partial<X509CertificateNotesArgs>>;
+  objectGroup?: Resolver<Maybe<ResolversTypes['MarkingGroupConnection']>, ParentType, ContextType>;
   objectLabel?: Resolver<Maybe<ResolversTypes['LabelConnection']>, ParentType, ContextType>;
   objectMarking?: Resolver<Maybe<ResolversTypes['MarkingDefinitionConnection']>, ParentType, ContextType>;
   observable_value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -24155,6 +24337,9 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   MarkingDefinitionConnection?: MarkingDefinitionConnectionResolvers<ContextType>;
   MarkingDefinitionEdge?: MarkingDefinitionEdgeResolvers<ContextType>;
   MarkingDefinitionEditMutations?: MarkingDefinitionEditMutationsResolvers<ContextType>;
+  MarkingGroup?: MarkingGroupResolvers<ContextType>;
+  MarkingGroupConnection?: MarkingGroupConnectionResolvers<ContextType>;
+  MarkingGroupEdge?: MarkingGroupEdgeResolvers<ContextType>;
   MessagesStats?: MessagesStatsResolvers<ContextType>;
   Module?: ModuleResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

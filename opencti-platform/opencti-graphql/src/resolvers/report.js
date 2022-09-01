@@ -2,14 +2,14 @@ import {
   addReport,
   findAll,
   findById,
+  reportContainsStixObjectOrStixRelationship,
   reportsDistributionByEntity,
   reportsNumber,
-  reportsNumberByEntity,
   reportsNumberByAuthor,
+  reportsNumberByEntity,
   reportsTimeSeries,
   reportsTimeSeriesByAuthor,
   reportsTimeSeriesByEntity,
-  reportContainsStixObjectOrStixRelationship,
 } from '../domain/report';
 import {
   stixDomainObjectAddRelation,

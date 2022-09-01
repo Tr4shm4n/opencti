@@ -12,6 +12,7 @@ import {
   mergeEntities,
   batchLoadThroughGetTo,
   storeLoadByIdWithRefs,
+  createRelationRaw,
 } from '../database/middleware';
 import { listEntities } from '../database/middleware-loader';
 import { findAll as relationFindAll } from './stixCoreRelationship';
@@ -44,11 +45,12 @@ import { isStixRelationship } from '../schema/stixRelationship';
 import { createWork, workToExportFile } from './work';
 import { pushToConnector } from '../database/rabbitmq';
 import { now } from '../utils/format';
-import { ENTITY_TYPE_CONNECTOR } from '../schema/internalObject';
+import { ENTITY_TYPE_CONNECTOR, ENTITY_TYPE_GROUP } from '../schema/internalObject';
 import { deleteFile, loadFile, storeFileConverter, upload } from '../database/file-storage';
 import { elUpdateElement } from '../database/engine';
 import { getInstanceIds } from '../schema/identifier';
 import { askEntityExport } from './stix';
+import { RELATION_GROUPS } from '../schema/internalRelationship';
 
 export const findAll = async (user, args) => {
   let types = [];
@@ -61,7 +63,9 @@ export const findAll = async (user, args) => {
   return listEntities(user, types, args);
 };
 
-export const findById = async (user, stixCoreObjectId) => storeLoadById(user, stixCoreObjectId, ABSTRACT_STIX_CORE_OBJECT);
+export const findById = async (user, stixCoreObjectId) => {
+  return storeLoadById(user, stixCoreObjectId, ABSTRACT_STIX_CORE_OBJECT);
+};
 
 export const batchCreatedBy = async (user, stixCoreObjectIds) => {
   return batchLoadThroughGetTo(user, stixCoreObjectIds, RELATION_CREATED_BY, ENTITY_TYPE_IDENTITY);
@@ -85,6 +89,10 @@ export const batchObservedData = (user, stixCoreObjectIds, args = {}) => {
 
 export const batchLabels = (user, stixCoreObjectIds) => {
   return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_OBJECT_LABEL, ENTITY_TYPE_LABEL);
+};
+
+export const batchGroups = (user, stixCoreObjectIds) => {
+  return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_GROUPS, ENTITY_TYPE_GROUP);
 };
 
 export const batchMarkingDefinitions = (user, stixCoreObjectIds) => {
@@ -111,6 +119,18 @@ export const stixCoreObjectAddRelation = async (user, stixCoreObjectId, input) =
   }
   const finalInput = R.assoc('fromId', stixCoreObjectId, input);
   return createRelation(user, finalInput);
+};
+
+export const stixCoreObjectAddGroupRestriction = async (user, stixCoreObjectId, groupId) => {
+  const stixCoreObject = await findById(user, stixCoreObjectId);
+  await createRelationRaw(user, { fromId: stixCoreObjectId, toId: groupId, relationship_type: RELATION_GROUPS });
+  return stixCoreObject;
+};
+
+export const stixCoreObjectRemoveGroupRestriction = async (user, stixCoreObjectId, groupId) => {
+  const stixCoreObject = await findById(user, stixCoreObjectId);
+  await deleteRelationsByFromAndTo(user, stixCoreObjectId, groupId, RELATION_GROUPS, ABSTRACT_STIX_META_RELATIONSHIP);
+  return stixCoreObject;
 };
 
 export const stixCoreObjectAddRelations = async (user, stixCoreObjectId, input) => {
