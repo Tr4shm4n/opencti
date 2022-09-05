@@ -4,7 +4,7 @@ import {
   askElementEnrichmentForConnector,
   batchCreatedBy,
   batchExternalReferences,
-  batchGroups,
+  batchObjectOrganizations,
   batchLabels,
   batchMarkingDefinitions,
   batchNotes,
@@ -13,7 +13,7 @@ import {
   batchReports,
   findAll,
   findById,
-  stixCoreObjectAddGroupRestriction,
+  addOrganizationRestriction,
   stixCoreObjectAddRelation,
   stixCoreObjectAddRelations,
   stixCoreObjectDelete,
@@ -22,7 +22,7 @@ import {
   stixCoreObjectExportPush,
   stixCoreObjectImportPush,
   stixCoreObjectMerge,
-  stixCoreObjectRemoveGroupRestriction,
+  removeOrganizationRestriction,
   stixCoreRelationships
 } from '../domain/stixCoreObject';
 import { creator } from '../domain/log';
@@ -44,7 +44,7 @@ const notesLoader = batchLoader(batchNotes);
 const opinionsLoader = batchLoader(batchOpinions);
 const reportsLoader = batchLoader(batchReports);
 const observedDataLoader = batchLoader(batchObservedData);
-const groupsLoader = batchLoader(batchGroups);
+const batchOrganizationsLoader = batchLoader(batchObjectOrganizations);
 
 const stixCoreObjectResolvers = {
   Query: {
@@ -68,7 +68,7 @@ const stixCoreObjectResolvers = {
     createdBy: (stixCoreObject, _, { user }) => createdByLoader.load(stixCoreObject.id, user),
     objectMarking: (stixCoreObject, _, { user }) => markingDefinitionsLoader.load(stixCoreObject.id, user),
     objectLabel: (stixCoreObject, _, { user }) => labelsLoader.load(stixCoreObject.id, user),
-    objectGroup: (stixCoreObject, _, { user }) => groupsLoader.load(stixCoreObject.id, user),
+    objectOrganization: (stixCoreObject, _, { user }) => batchOrganizationsLoader.load(stixCoreObject.id, user),
     externalReferences: (stixCoreObject, _, { user }) => externalReferencesLoader.load(stixCoreObject.id, user),
     reports: (stixCoreObject, args, { user }) => reportsLoader.load(stixCoreObject.id, user, args),
     notes: (stixCoreObject, _, { user }) => notesLoader.load(stixCoreObject.id, user),
@@ -85,8 +85,8 @@ const stixCoreObjectResolvers = {
       delete: () => stixCoreObjectDelete(user, id),
       relationAdd: ({ input }) => stixCoreObjectAddRelation(user, id, input),
       relationsAdd: ({ input }) => stixCoreObjectAddRelations(user, id, input),
-      restrictionGroupAdd: ({ groupId }) => stixCoreObjectAddGroupRestriction(user, id, groupId),
-      restrictionGroupDelete: ({ groupId }) => stixCoreObjectRemoveGroupRestriction(user, id, groupId),
+      restrictionOrganizationAdd: ({ organizationId }) => addOrganizationRestriction(user, id, organizationId),
+      restrictionOrganizationDelete: ({ organizationId }) => removeOrganizationRestriction(user, id, organizationId),
       relationDelete: ({ toId, relationship_type: relationshipType }) => stixCoreObjectDeleteRelation(user, id, toId, relationshipType),
       merge: ({ stixCoreObjectsIds }) => stixCoreObjectMerge(user, id, stixCoreObjectsIds),
       askEnrichment: ({ connectorId }) => askElementEnrichmentForConnector(user, id, connectorId),

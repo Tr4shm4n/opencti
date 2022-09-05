@@ -17,13 +17,20 @@ import CommitMessage from '../../common/form/CommitMessage';
 import StatusField from '../../common/form/StatusField';
 import { buildDate, parse } from '../../../../utils/Time';
 import {
-  convertCreatedBy,
+  convertCreatedBy, convertOrganizations,
   convertMarkings,
   convertStatus,
 } from '../../../../utils/Edition';
 import DateTimePickerField from '../../../../components/DateTimePickerField';
+import Security, { KNOWLEDGE_KNUPDATE_KNORGARESTRICT } from '../../../../utils/Security';
+import ObjectOrganizationField from '../../common/form/ObjectOrganizationField';
 
 const styles = (theme) => ({
+  restrictions: {
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: theme.palette.background.nav,
+  },
   drawerPaper: {
     minHeight: '100vh',
     width: '50%',
@@ -103,6 +110,26 @@ const observedDataMutationRelationDelete = graphql`
   ) {
     observedDataEdit(id: $id) {
       relationDelete(toId: $toId, relationship_type: $relationship_type) {
+        ...ObservedDataEditionOverview_observedData
+      }
+    }
+  }
+`;
+
+const observedDataMutationGroupAdd = graphql`
+  mutation ObservedDataEditionOverviewGroupAddMutation($id: ID!, $organizationId: ID!) {
+    stixCoreObjectEdit(id: $id) {
+      restrictionOrganizationAdd(organizationId: $organizationId) {
+        ...ObservedDataEditionOverview_observedData
+      }
+    }
+  }
+`;
+
+const observedDataMutationGroupDelete = graphql`
+  mutation ObservedDataEditionOverviewGroupDeleteMutation($id: ID!, $organizationId: ID!) {
+    stixCoreObjectEdit(id: $id) {
+      restrictionOrganizationDelete(organizationId: $organizationId) {
         ...ObservedDataEditionOverview_observedData
       }
     }
@@ -239,14 +266,47 @@ class ObservedDataEditionOverviewComponent extends Component {
     }
   }
 
+  handleChangeObjectOrganization(name, values) {
+    const { observedData } = this.props;
+    const currentValues = R.pipe(
+      R.pathOr([], ['objectOrganization', 'edges']),
+      R.map((n) => ({
+        label: n.node.name,
+        value: n.node.id,
+      })),
+    )(observedData);
+    const added = R.difference(values, currentValues);
+    const removed = R.difference(currentValues, values);
+    if (added.length > 0) {
+      commitMutation({
+        mutation: observedDataMutationGroupAdd,
+        variables: {
+          id: this.props.observedData.id,
+          organizationId: R.head(added).value,
+        },
+      });
+    }
+    if (removed.length > 0) {
+      commitMutation({
+        mutation: observedDataMutationGroupDelete,
+        variables: {
+          id: this.props.observedData.id,
+          organizationId: R.head(removed).value,
+        },
+      });
+    }
+  }
+
   render() {
-    const { t, observedData, context, enableReferences } = this.props;
+    const { t, observedData, classes, context, enableReferences } = this.props;
     const createdBy = convertCreatedBy(observedData);
     const objectMarking = convertMarkings(observedData);
+    const objectOrganization = convertOrganizations(observedData);
     const status = convertStatus(t, observedData);
     const initialValues = R.pipe(
       R.assoc('createdBy', createdBy),
       R.assoc('objectMarking', objectMarking),
+      R.assoc('objectOrganization', objectOrganization),
       R.assoc('first_observed', buildDate(observedData.first_observed)),
       R.assoc('last_observed', buildDate(observedData.last_observed)),
       R.assoc('x_opencti_workflow_id', status),
@@ -256,6 +316,7 @@ class ObservedDataEditionOverviewComponent extends Component {
         'number_observed',
         'confidence',
         'createdBy',
+        'objectOrganization',
         'objectMarking',
         'x_opencti_workflow_id',
       ]),
@@ -275,7 +336,15 @@ class ObservedDataEditionOverviewComponent extends Component {
           values,
         }) => (
           <div>
-            <Form style={{ margin: '20px 0 20px 0' }}>
+            <Form style={{ margin: '0px 0 20px 0' }}>
+              <Security needs={[KNOWLEDGE_KNUPDATE_KNORGARESTRICT]}>
+                <div className={classes.restrictions}>
+                  <ObjectOrganizationField name="objectOrganization" style={{ width: '100%' }}
+                                    helpertext={<SubscriptionFocus context={context} fieldname="objectOrganization"/>}
+                                    onChange={this.handleChangeObjectOrganization.bind(this)}
+                  />
+                </div>
+              </Security>
               <Field
                 component={DateTimePickerField}
                 name="first_observed"
@@ -302,6 +371,7 @@ class ObservedDataEditionOverviewComponent extends Component {
                   label: t('Last observed'),
                   variant: 'standard',
                   fullWidth: true,
+                  style: { marginTop: 20 },
                   helperText: (
                     <SubscriptionFocus
                       context={context}
@@ -413,6 +483,14 @@ const ObservedDataEditionOverview = createFragmentContainer(
             id
             name
             entity_type
+          }
+        }
+        objectOrganization {
+          edges {
+            node {
+              id
+              name
+            }
           }
         }
         objectMarking {

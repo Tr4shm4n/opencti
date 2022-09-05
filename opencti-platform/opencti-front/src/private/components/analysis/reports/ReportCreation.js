@@ -27,14 +27,13 @@ import ExternalReferencesField from '../../common/form/ExternalReferencesField';
 import ItemIcon from '../../../../components/ItemIcon';
 import AutocompleteField from '../../../../components/AutocompleteField';
 import AutocompleteFreeSoloField from '../../../../components/AutocompleteFreeSoloField';
-import Security, { KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT, SETTINGS_SETLABELS } from '../../../../utils/Security';
+import Security, { KNOWLEDGE_KNUPDATE_KNORGARESTRICT, SETTINGS_SETLABELS } from '../../../../utils/Security';
 import DateTimePickerField from '../../../../components/DateTimePickerField';
-import ObjectGroupField from '../../common/form/ObjectGroupField';
+import ObjectOrganizationField from '../../common/form/ObjectOrganizationField';
 
 const styles = (theme) => ({
   restrictions: {
     padding: 10,
-    marginBottom: 20,
     backgroundColor: theme.palette.background.nav,
   },
   drawerPaper: {
@@ -141,7 +140,7 @@ class ReportCreation extends Component {
       R.assoc('published', parse(values.published).format()),
       R.assoc('report_types', R.pluck('value', values.report_types)),
       R.assoc('createdBy', values.createdBy?.value),
-      R.assoc('objectGroup', R.pluck('value', values.objectGroup)),
+      R.assoc('objectOrganization', R.pluck('value', values.objectOrganization)),
       R.assoc('objectMarking', R.pluck('value', values.objectMarking)),
       R.assoc('objectLabel', R.pluck('value', values.objectLabel)),
       R.assoc('externalReferences', R.pluck('value', values.externalReferences)),
@@ -233,7 +232,7 @@ class ReportCreation extends Component {
                           description: '',
                           report_types: [],
                           createdBy: '',
-                          objectGroup: [],
+                          objectOrganization: [],
                           objectMarking: [],
                           objectLabel: [],
                           externalReferences: [],
@@ -249,10 +248,10 @@ class ReportCreation extends Component {
                           setFieldValue,
                           values,
                         }) => (
-                          <Form style={{ margin: '20px 0 20px 0' }}>
-                            <Security needs={[KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT]}>
+                          <Form style={{ margin: '0px 0 20px 0' }}>
+                            <Security needs={[KNOWLEDGE_KNUPDATE_KNORGARESTRICT]}>
                               <div className={classes.restrictions}>
-                                <ObjectGroupField name="objectGroup" style={{ width: '100%' }}/>
+                                <ObjectOrganizationField name="objectOrganization" style={{ width: '100%' }}/>
                               </div>
                             </Security>
                             <Field

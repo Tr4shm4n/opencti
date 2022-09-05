@@ -33,7 +33,7 @@ import {
 import {
   ENTITY_TYPE_CONTAINER_NOTE, ENTITY_TYPE_CONTAINER_OBSERVED_DATA,
   ENTITY_TYPE_CONTAINER_OPINION,
-  ENTITY_TYPE_CONTAINER_REPORT
+  ENTITY_TYPE_CONTAINER_REPORT, ENTITY_TYPE_IDENTITY_ORGANIZATION
 } from '../schema/stixDomainObject';
 import {
   ENTITY_TYPE_EXTERNAL_REFERENCE,
@@ -45,12 +45,12 @@ import { isStixRelationship } from '../schema/stixRelationship';
 import { createWork, workToExportFile } from './work';
 import { pushToConnector } from '../database/rabbitmq';
 import { now } from '../utils/format';
-import { ENTITY_TYPE_CONNECTOR, ENTITY_TYPE_GROUP } from '../schema/internalObject';
+import { ENTITY_TYPE_CONNECTOR } from '../schema/internalObject';
 import { deleteFile, loadFile, storeFileConverter, upload } from '../database/file-storage';
 import { elUpdateElement } from '../database/engine';
 import { getInstanceIds } from '../schema/identifier';
 import { askEntityExport } from './stix';
-import { RELATION_GROUPS } from '../schema/internalRelationship';
+import { RELATION_ORGANIZATIONS } from '../schema/internalRelationship';
 
 export const findAll = async (user, args) => {
   let types = [];
@@ -91,8 +91,8 @@ export const batchLabels = (user, stixCoreObjectIds) => {
   return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_OBJECT_LABEL, ENTITY_TYPE_LABEL);
 };
 
-export const batchGroups = (user, stixCoreObjectIds) => {
-  return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_GROUPS, ENTITY_TYPE_GROUP);
+export const batchObjectOrganizations = (user, stixCoreObjectIds) => {
+  return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_ORGANIZATIONS, ENTITY_TYPE_IDENTITY_ORGANIZATION);
 };
 
 export const batchMarkingDefinitions = (user, stixCoreObjectIds) => {
@@ -121,15 +121,15 @@ export const stixCoreObjectAddRelation = async (user, stixCoreObjectId, input) =
   return createRelation(user, finalInput);
 };
 
-export const stixCoreObjectAddGroupRestriction = async (user, stixCoreObjectId, groupId) => {
+export const addOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
   const stixCoreObject = await findById(user, stixCoreObjectId);
-  await createRelationRaw(user, { fromId: stixCoreObjectId, toId: groupId, relationship_type: RELATION_GROUPS });
+  await createRelationRaw(user, { fromId: stixCoreObjectId, toId: organizationId, relationship_type: RELATION_ORGANIZATIONS });
   return stixCoreObject;
 };
 
-export const stixCoreObjectRemoveGroupRestriction = async (user, stixCoreObjectId, groupId) => {
+export const removeOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
   const stixCoreObject = await findById(user, stixCoreObjectId);
-  await deleteRelationsByFromAndTo(user, stixCoreObjectId, groupId, RELATION_GROUPS, ABSTRACT_STIX_META_RELATIONSHIP);
+  await deleteRelationsByFromAndTo(user, stixCoreObjectId, organizationId, RELATION_ORGANIZATIONS, ABSTRACT_STIX_META_RELATIONSHIP);
   return stixCoreObject;
 };
 

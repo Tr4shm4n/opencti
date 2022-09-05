@@ -21,15 +21,15 @@ import CommitMessage from '../../common/form/CommitMessage';
 import { adaptFieldValue } from '../../../../utils/String';
 import ItemIcon from '../../../../components/ItemIcon';
 import AutocompleteFreeSoloField from '../../../../components/AutocompleteFreeSoloField';
-import Security, { KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT, SETTINGS_SETLABELS } from '../../../../utils/Security';
+import Security, { KNOWLEDGE_KNUPDATE_KNORGARESTRICT, SETTINGS_SETLABELS } from '../../../../utils/Security';
 import AutocompleteField from '../../../../components/AutocompleteField';
 import {
-  convertCreatedBy, convertGroups,
+  convertCreatedBy, convertOrganizations,
   convertMarkings,
   convertStatus,
 } from '../../../../utils/Edition';
 import DateTimePickerField from '../../../../components/DateTimePickerField';
-import ObjectGroupField from '../../common/form/ObjectGroupField';
+import ObjectOrganizationField from '../../common/form/ObjectOrganizationField';
 
 const styles = (theme) => ({
   restrictions: {
@@ -109,9 +109,9 @@ const reportMutationRelationAdd = graphql`
 `;
 
 const reportMutationGroupAdd = graphql`
-  mutation ReportEditionOverviewGroupAddMutation($id: ID!, $groupId: ID!) {
+  mutation ReportEditionOverviewGroupAddMutation($id: ID!, $organizationId: ID!) {
     stixCoreObjectEdit(id: $id) {
-      restrictionGroupAdd(groupId: $groupId) {
+      restrictionOrganizationAdd(organizationId: $organizationId) {
         ...ReportEditionOverview_report
       }
     }
@@ -119,9 +119,9 @@ const reportMutationGroupAdd = graphql`
 `;
 
 const reportMutationGroupDelete = graphql`
-  mutation ReportEditionOverviewGroupDeleteMutation($id: ID!, $groupId: ID!) {
+  mutation ReportEditionOverviewGroupDeleteMutation($id: ID!, $organizationId: ID!) {
     stixCoreObjectEdit(id: $id) {
-      restrictionGroupDelete(groupId: $groupId) {
+      restrictionOrganizationDelete(organizationId: $organizationId) {
         ...ReportEditionOverview_report
       }
     }
@@ -239,10 +239,10 @@ class ReportEditionOverviewComponent extends Component {
     }
   }
 
-  handleChangeObjectGroup(name, values) {
+  handleChangeObjectOrganization(name, values) {
     const { report } = this.props;
     const currentValues = R.pipe(
-      R.pathOr([], ['objectGroup', 'edges']),
+      R.pathOr([], ['objectOrganization', 'edges']),
       R.map((n) => ({
         label: n.node.name,
         value: n.node.id,
@@ -255,7 +255,7 @@ class ReportEditionOverviewComponent extends Component {
         mutation: reportMutationGroupAdd,
         variables: {
           id: this.props.report.id,
-          groupId: R.head(added).value,
+          organizationId: R.head(added).value,
         },
       });
     }
@@ -264,7 +264,7 @@ class ReportEditionOverviewComponent extends Component {
         mutation: reportMutationGroupDelete,
         variables: {
           id: this.props.report.id,
-          groupId: R.head(removed).value,
+          organizationId: R.head(removed).value,
         },
       });
     }
@@ -311,12 +311,12 @@ class ReportEditionOverviewComponent extends Component {
     const { t, report, context, enableReferences, classes } = this.props;
     const createdBy = convertCreatedBy(report);
     const objectMarking = convertMarkings(report);
-    const objectGroup = convertGroups(report);
+    const objectOrganization = convertOrganizations(report);
     const status = convertStatus(t, report);
     const initialValues = R.pipe(
       R.assoc('createdBy', createdBy),
       R.assoc('objectMarking', objectMarking),
-      R.assoc('objectGroup', objectGroup),
+      R.assoc('objectOrganization', objectOrganization),
       R.assoc('published', buildDate(report.published)),
       R.assoc('x_opencti_workflow_id', status),
       R.assoc(
@@ -330,7 +330,7 @@ class ReportEditionOverviewComponent extends Component {
         'report_types',
         'createdBy',
         'objectMarking',
-        'objectGroup',
+        'objectOrganization',
         'confidence',
         'x_opencti_workflow_id',
       ]),
@@ -365,12 +365,12 @@ class ReportEditionOverviewComponent extends Component {
                     values,
                   }) => (
                     <div>
-                      <Form style={{ margin: '20px 0 20px 0' }}>
-                        <Security needs={[KNOWLEDGE_KNUPDATE_KNGROUPRESTRICT]}>
+                      <Form style={{ margin: '0px 0 20px 0' }}>
+                        <Security needs={[KNOWLEDGE_KNUPDATE_KNORGARESTRICT]}>
                           <div className={classes.restrictions}>
-                            <ObjectGroupField name="objectGroup" style={{ width: '100%' }}
-                                helpertext={<SubscriptionFocus context={context} fieldname="objectGroup"/>}
-                                onChange={this.handleChangeObjectGroup.bind(this)}
+                            <ObjectOrganizationField name="objectOrganization" style={{ width: '100%' }}
+                                helpertext={<SubscriptionFocus context={context} fieldname="objectOrganization"/>}
+                                onChange={this.handleChangeObjectOrganization.bind(this)}
                             />
                           </div>
                         </Security>
@@ -590,7 +590,7 @@ const ReportEditionOverview = createFragmentContainer(
             entity_type
           }
         }
-        objectGroup {
+        objectOrganization {
           edges {
             node {
               id

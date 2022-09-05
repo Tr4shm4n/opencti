@@ -392,7 +392,7 @@ const IntrusionSetEditionOverview = createFragmentContainer(
             entity_type
           }
         }
-        objectGroup {
+        objectOrganization {
           edges {
             node {
               id

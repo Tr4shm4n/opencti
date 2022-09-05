@@ -26,8 +26,15 @@ import ConfidenceField from '../../common/form/ConfidenceField';
 import { dayStartDate } from '../../../../utils/Time';
 import TextField from '../../../../components/TextField';
 import DateTimePickerField from '../../../../components/DateTimePickerField';
+import Security, { KNOWLEDGE_KNUPDATE_KNORGARESTRICT } from '../../../../utils/Security';
+import ObjectOrganizationField from '../../common/form/ObjectOrganizationField';
 
 const styles = (theme) => ({
+  restrictions: {
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: theme.palette.background.nav,
+  },
   drawerPaper: {
     minHeight: '100vh',
     width: '50%',
@@ -125,6 +132,7 @@ class NoteCreation extends Component {
         createdBy: path(['value']),
         objectMarking: pluck('value'),
         objectLabel: pluck('value'),
+        objectOrganization: pluck('value'),
       },
       values,
     );
@@ -201,6 +209,7 @@ class NoteCreation extends Component {
                 content: '',
                 confidence: 75,
                 createdBy: '',
+                objectOrganization: [],
                 objectMarking: [],
                 objectLabel: [],
               }}
@@ -215,7 +224,12 @@ class NoteCreation extends Component {
                 setFieldValue,
                 values,
               }) => (
-                <Form style={{ margin: '20px 0 20px 0' }}>
+                <Form style={{ margin: '0px 0 20px 0' }}>
+                  <Security needs={[KNOWLEDGE_KNUPDATE_KNORGARESTRICT]}>
+                    <div className={classes.restrictions}>
+                      <ObjectOrganizationField name="objectOrganization" style={{ width: '100%' }}/>
+                    </div>
+                  </Security>
                   <Field
                     component={DateTimePickerField}
                     name="created"

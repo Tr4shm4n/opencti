@@ -107,7 +107,7 @@ import {
   IDS_STIX,
   INPUT_CREATED_BY,
   INPUT_EXTERNAL_REFS,
-  INPUT_GROUPS,
+  INPUT_ORGANIZATIONS,
   INPUT_KILLCHAIN,
   INPUT_LABELS,
   INPUT_MARKINGS,
@@ -217,7 +217,7 @@ import { createEntityAutoEnrichment } from '../domain/enrichment';
 import { convertStoreToStix, isTrustedStixId } from './stix-converter';
 import { listAllRelations, listEntities, listRelations } from './middleware-loader';
 import { getEntitiesFromCache } from '../manager/cacheManager';
-import { RELATION_GROUPS } from '../schema/internalRelationship';
+import { RELATION_ORGANIZATIONS } from '../schema/internalRelationship';
 
 // region global variables
 export const MAX_BATCH_SIZE = 300;
@@ -2271,7 +2271,7 @@ const upsertElementRaw = async (user, element, type, updatePatch) => {
     if (updatePatch[inputField] && MULTIPLE_META_RELATIONSHIPS_INPUTS.includes(inputField)) {
       const relType = FIELD_TO_META_RELATION[inputField];
       // Only add group relation for allowed users
-      if (relType !== RELATION_GROUPS || userHaveCapability(user, KNOWLEDGE_GROUP_RESTRICT)) {
+      if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_GROUP_RESTRICT)) {
         const existingInstances = element[relType] || [];
         const instancesToCreate = R.filter((m) => !existingInstances.includes(m.internal_id), updatePatch[inputField]);
         if (instancesToCreate.length > 0) {
@@ -2707,7 +2707,7 @@ const buildEntityData = async (user, input, type, opts = {}) => {
     R.dissoc(INPUT_KILLCHAIN),
     R.dissoc(INPUT_EXTERNAL_REFS),
     R.dissoc(INPUT_OBJECTS),
-    R.dissoc(INPUT_GROUPS)
+    R.dissoc(INPUT_ORGANIZATIONS)
   )(input);
   if (inferred) {
     // Simply add the rule
@@ -2785,7 +2785,7 @@ const buildEntityData = async (user, input, type, opts = {}) => {
       if (input[inputField]) {
         const relType = FIELD_TO_META_RELATION[inputField];
         // Only add group relation for allowed users
-        if (relType !== RELATION_GROUPS || userHaveCapability(user, KNOWLEDGE_GROUP_RESTRICT)) {
+        if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_GROUP_RESTRICT)) {
           relToCreate.push(...buildInnerRelation(data, input[inputField], relType));
         }
       }
