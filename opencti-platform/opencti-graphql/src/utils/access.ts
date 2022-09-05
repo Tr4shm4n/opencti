@@ -8,7 +8,7 @@ import type { StoreCommon } from '../types/store';
 
 export const BYPASS = 'BYPASS';
 export const BYPASS_REFERENCE = 'BYPASSREFERENCE';
-export const KNOWLEDGE_GROUP_RESTRICT = 'KNOWLEDGE_KNUPDATE_KNORGARESTRICT';
+export const KNOWLEDGE_ORGANIZATION_RESTRICT = 'KNOWLEDGE_KNUPDATE_KNORGARESTRICT';
 export const ROLE_ADMINISTRATOR = 'Administrator';
 const RETENTION_MANAGER_USER_UUID = '82ed2c6c-eb27-498e-b904-4f2abc04e05f';
 

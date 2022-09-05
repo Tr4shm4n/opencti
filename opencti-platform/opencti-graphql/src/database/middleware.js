@@ -197,7 +197,8 @@ import {
   BYPASS,
   BYPASS_REFERENCE,
   filterElementsAccordingToUser,
-  isUserCanAccessElement, KNOWLEDGE_GROUP_RESTRICT,
+  isUserCanAccessElement,
+  KNOWLEDGE_ORGANIZATION_RESTRICT,
   SYSTEM_USER
 } from '../utils/access';
 import { isRuleUser, RULE_MANAGER_USER, RULES_ATTRIBUTES_BEHAVIOR } from '../rules/rules';
@@ -2271,7 +2272,7 @@ const upsertElementRaw = async (user, element, type, updatePatch) => {
     if (updatePatch[inputField] && MULTIPLE_META_RELATIONSHIPS_INPUTS.includes(inputField)) {
       const relType = FIELD_TO_META_RELATION[inputField];
       // Only add group relation for allowed users
-      if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_GROUP_RESTRICT)) {
+      if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_ORGANIZATION_RESTRICT)) {
         const existingInstances = element[relType] || [];
         const instancesToCreate = R.filter((m) => !existingInstances.includes(m.internal_id), updatePatch[inputField]);
         if (instancesToCreate.length > 0) {
@@ -2785,7 +2786,7 @@ const buildEntityData = async (user, input, type, opts = {}) => {
       if (input[inputField]) {
         const relType = FIELD_TO_META_RELATION[inputField];
         // Only add group relation for allowed users
-        if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_GROUP_RESTRICT)) {
+        if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_ORGANIZATION_RESTRICT)) {
           relToCreate.push(...buildInnerRelation(data, input[inputField], relType));
         }
       }
