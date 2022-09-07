@@ -7122,6 +7122,7 @@ export type Mutation = {
   uploadPending?: Maybe<File>;
   userAdd?: Maybe<User>;
   userEdit?: Maybe<UserEditMutations>;
+  userNoteAdd?: Maybe<Note>;
   userSessionsKill?: Maybe<Array<Maybe<Scalars['ID']>>>;
   userSubscriptionAdd?: Maybe<UserSubscription>;
   userSubscriptionEdit?: Maybe<UserSubscriptionEditMutations>;
@@ -8012,6 +8013,11 @@ export type MutationUserEditArgs = {
 };
 
 
+export type MutationUserNoteAddArgs = {
+  input?: InputMaybe<NoteUserAddInput>;
+};
+
+
 export type MutationUserSessionsKillArgs = {
   id: Scalars['ID'];
 };
@@ -8708,11 +8714,11 @@ export type NoteStixCoreRelationshipsArgs = {
 
 export type NoteAddInput = {
   attribute_abstract?: InputMaybe<Scalars['String']>;
-  authors?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   clientMutationId?: InputMaybe<Scalars['String']>;
   confidence?: InputMaybe<Scalars['Int']>;
   content: Scalars['String'];
   created?: InputMaybe<Scalars['DateTime']>;
+  createdBy?: InputMaybe<Scalars['String']>;
   externalReferences?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   lang?: InputMaybe<Scalars['String']>;
   modified?: InputMaybe<Scalars['DateTime']>;
@@ -8769,6 +8775,25 @@ export type NoteEditMutationsRelationAddArgs = {
 export type NoteEditMutationsRelationDeleteArgs = {
   relationship_type: Scalars['String'];
   toId: Scalars['StixRef'];
+};
+
+export type NoteUserAddInput = {
+  attribute_abstract?: InputMaybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  confidence?: InputMaybe<Scalars['Int']>;
+  content: Scalars['String'];
+  created?: InputMaybe<Scalars['DateTime']>;
+  externalReferences?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lang?: InputMaybe<Scalars['String']>;
+  modified?: InputMaybe<Scalars['DateTime']>;
+  objectLabel?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  objectMarking?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  objectOrganization?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  objects?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  revoked?: InputMaybe<Scalars['Boolean']>;
+  stix_id?: InputMaybe<Scalars['String']>;
+  update?: InputMaybe<Scalars['Boolean']>;
+  x_opencti_stix_ids?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export enum NotesFilter {
@@ -18003,6 +18028,7 @@ export type ResolversTypes = ResolversObject<{
   NoteConnection: ResolverTypeWrapper<NoteConnection>;
   NoteEdge: ResolverTypeWrapper<NoteEdge>;
   NoteEditMutations: ResolverTypeWrapper<NoteEditMutations>;
+  NoteUserAddInput: NoteUserAddInput;
   NotesFilter: NotesFilter;
   NotesFiltering: NotesFiltering;
   NotesOrdering: NotesOrdering;
@@ -18554,6 +18580,7 @@ export type ResolversParentTypes = ResolversObject<{
   NoteConnection: NoteConnection;
   NoteEdge: NoteEdge;
   NoteEditMutations: NoteEditMutations;
+  NoteUserAddInput: NoteUserAddInput;
   NotesFiltering: NotesFiltering;
   Number: Number;
   ObjectTotals: ObjectTotals;
@@ -21309,6 +21336,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   uploadPending?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUploadPendingArgs, 'file'>>;
   userAdd?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationUserAddArgs>>;
   userEdit?: Resolver<Maybe<ResolversTypes['UserEditMutations']>, ParentType, ContextType, RequireFields<MutationUserEditArgs, 'id'>>;
+  userNoteAdd?: Resolver<Maybe<ResolversTypes['Note']>, ParentType, ContextType, Partial<MutationUserNoteAddArgs>>;
   userSessionsKill?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationUserSessionsKillArgs, 'id'>>;
   userSubscriptionAdd?: Resolver<Maybe<ResolversTypes['UserSubscription']>, ParentType, ContextType, Partial<MutationUserSubscriptionAddArgs>>;
   userSubscriptionEdit?: Resolver<Maybe<ResolversTypes['UserSubscriptionEditMutations']>, ParentType, ContextType, RequireFields<MutationUserSubscriptionEditArgs, 'id'>>;

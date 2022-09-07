@@ -7,7 +7,6 @@ import {
   timeSeriesEntities,
 } from '../database/middleware';
 import { listEntities } from '../database/middleware-loader';
-import { findAll as findIndividuals, addIndividual } from './individual';
 import { BUS_TOPICS } from '../config/conf';
 import { notify } from '../database/redis';
 import { ENTITY_TYPE_CONTAINER_NOTE } from '../schema/stixDomainObject';
@@ -103,19 +102,7 @@ export const notesDistributionByEntity = async (user, args) => {
 
 // region mutations
 export const addNote = async (user, note) => {
-  const noteToCreate = note;
-  // For note, auto assign current user as author
-  if (!note.createdBy) {
-    const args = { filters: [{ key: 'contact_information', values: [user.user_email] }], connectionFormat: false };
-    const individuals = await findIndividuals(user, args);
-    if (individuals.length > 0) {
-      noteToCreate.createdBy = R.head(individuals).id;
-    } else {
-      const individual = await addIndividual(user, { name: user.name, contact_information: user.user_email });
-      noteToCreate.createdBy = individual.id;
-    }
-  }
-  const created = await createEntity(user, noteToCreate, ENTITY_TYPE_CONTAINER_NOTE);
+  const created = await createEntity(user, note, ENTITY_TYPE_CONTAINER_NOTE);
   return notify(BUS_TOPICS[ABSTRACT_STIX_DOMAIN_OBJECT].ADDED_TOPIC, created, user);
 };
 // endregion
