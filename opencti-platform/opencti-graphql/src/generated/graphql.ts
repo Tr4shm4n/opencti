@@ -8714,6 +8714,7 @@ export type NoteStixCoreRelationshipsArgs = {
 
 export type NoteAddInput = {
   attribute_abstract?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   clientMutationId?: InputMaybe<Scalars['String']>;
   confidence?: InputMaybe<Scalars['Int']>;
   content: Scalars['String'];
