@@ -1052,6 +1052,7 @@ export enum Capabilities {
   KnowledgeKnenrichment = 'KNOWLEDGE_KNENRICHMENT',
   KnowledgeKngetexport = 'KNOWLEDGE_KNGETEXPORT',
   KnowledgeKngetexportKnaskexport = 'KNOWLEDGE_KNGETEXPORT_KNASKEXPORT',
+  KnowledgeKnparticipate = 'KNOWLEDGE_KNPARTICIPATE',
   KnowledgeKnupdate = 'KNOWLEDGE_KNUPDATE',
   KnowledgeKnupdateKndelete = 'KNOWLEDGE_KNUPDATE_KNDELETE',
   KnowledgeKnupdateKnorgarestrict = 'KNOWLEDGE_KNUPDATE_KNORGARESTRICT',
@@ -8712,7 +8713,6 @@ export type NoteAddInput = {
   confidence?: InputMaybe<Scalars['Int']>;
   content: Scalars['String'];
   created?: InputMaybe<Scalars['DateTime']>;
-  createdBy?: InputMaybe<Scalars['String']>;
   externalReferences?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   lang?: InputMaybe<Scalars['String']>;
   modified?: InputMaybe<Scalars['DateTime']>;
@@ -12902,6 +12902,7 @@ export type Settings = BasicObject & InternalObject & {
   platform_map_tile_server_dark?: Maybe<Scalars['String']>;
   platform_map_tile_server_light?: Maybe<Scalars['String']>;
   platform_modules?: Maybe<Array<Maybe<Module>>>;
+  platform_organization?: Maybe<Scalars['ID']>;
   platform_providers?: Maybe<Array<Maybe<Provider>>>;
   platform_reference_attachment?: Maybe<Scalars['Boolean']>;
   platform_theme?: Maybe<Scalars['String']>;
@@ -16196,6 +16197,7 @@ export type User = BasicObject & InternalObject & {
   firstname?: Maybe<Scalars['String']>;
   groups?: Maybe<GroupConnection>;
   id: Scalars['ID'];
+  individual_id?: Maybe<Scalars['String']>;
   language?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
   name: Scalars['String'];
@@ -22575,6 +22577,7 @@ export type SettingsResolvers<ContextType = any, ParentType extends ResolversPar
   platform_map_tile_server_dark?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   platform_map_tile_server_light?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   platform_modules?: Resolver<Maybe<Array<Maybe<ResolversTypes['Module']>>>, ParentType, ContextType>;
+  platform_organization?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   platform_providers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Provider']>>>, ParentType, ContextType>;
   platform_reference_attachment?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   platform_theme?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -23721,6 +23724,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   firstname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   groups?: Resolver<Maybe<ResolversTypes['GroupConnection']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  individual_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   language?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastname?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

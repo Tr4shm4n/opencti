@@ -18,6 +18,7 @@ const rootPrivateQuery = graphql`
       theme
       user_email
       theme
+      individual_id
       capabilities {
         name
       }

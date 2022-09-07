@@ -7,6 +7,7 @@ export const OPENCTI_ADMIN_UUID = '88ec0c6a-13ce-5e39-b486-354fe4a7084f';
 export const BYPASS = 'BYPASS';
 export const KNOWLEDGE = 'KNOWLEDGE';
 export const KNOWLEDGE_KNUPDATE = 'KNOWLEDGE_KNUPDATE';
+export const KNOWLEDGE_KNPARTICIPATE = 'KNOWLEDGE_KNPARTICIPATE';
 export const KNOWLEDGE_KNUPDATE_KNDELETE = 'KNOWLEDGE_KNUPDATE_KNDELETE';
 export const KNOWLEDGE_KNUPDATE_KNORGARESTRICT = 'KNOWLEDGE_KNUPDATE_KNORGARESTRICT';
 export const KNOWLEDGE_KNUPLOAD = 'KNOWLEDGE_KNUPLOAD';
@@ -47,6 +48,20 @@ const Security = ({ needs, matchAll, children, placeholder = <span /> }) => (
   <UserContext.Consumer>
     {({ me }) => {
       if (granted(me, needs, matchAll)) return children;
+      return placeholder;
+    }}
+  </UserContext.Consumer>
+);
+
+export const CollaborativeSecurity = ({ data, needs, matchAll,
+  children, placeholder = <span /> }) => (
+  <UserContext.Consumer>
+    {({ me }) => {
+      const haveCapability = granted(me, needs, matchAll);
+      if (haveCapability) return children;
+      const canParticipate = granted(me, [KNOWLEDGE_KNPARTICIPATE], false);
+      const isCreator = data.createdBy?.id ? data.createdBy?.id === me.individual_id : false;
+      if (canParticipate && isCreator) return children;
       return placeholder;
     }}
   </UserContext.Consumer>

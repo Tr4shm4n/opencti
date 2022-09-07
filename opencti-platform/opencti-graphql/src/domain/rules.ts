@@ -17,7 +17,6 @@ import IndicateSightedRule from '../rules/indicate-sighted/IndicateSightedRule';
 import SightingObservableRule from '../rules/sighting-observable/SightingObservableRule';
 import SightingIndicatorRule from '../rules/sighting-indicator/SightingIndicatorRule';
 import { BUS_TOPICS, DEV_MODE, ENABLED_RULE_ENGINE } from '../config/conf';
-import { getEntitiesFromCache } from '../manager/cacheManager';
 import type { AuthUser } from '../types/user';
 import { isEmptyField } from '../database/utils';
 import { UnsupportedError } from '../config/errors';
@@ -26,6 +25,7 @@ import { listEntities } from '../database/middleware-loader';
 import { createRuleTask, deleteTask } from './task';
 import { notify } from '../database/redis';
 import { ABSTRACT_INTERNAL_OBJECT } from '../schema/general';
+import { getEntitiesFromCache } from '../database/cache';
 
 export const RULES_DECLARATION: Array<RuleRuntime> = [
   AttributedToAttributedRule,

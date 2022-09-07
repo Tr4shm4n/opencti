@@ -32,7 +32,7 @@ import {
   RELATION_OBJECT_MARKING,
 } from '../schema/stixMetaRelationship';
 import {
-  ABSTRACT_BASIC_RELATIONSHIP,
+  ABSTRACT_BASIC_RELATIONSHIP, ABSTRACT_INTERNAL_OBJECT, ABSTRACT_STIX_META_OBJECT, ABSTRACT_STIX_META_RELATIONSHIP,
   BASE_TYPE_RELATION,
   buildRefRelationKey,
   buildRefRelationSearchKey,
@@ -61,6 +61,11 @@ import {
   ATTRIBUTE_DESCRIPTION,
   ATTRIBUTE_EXPLANATION,
   ATTRIBUTE_NAME,
+  ENTITY_TYPE_IDENTITY_ORGANIZATION,
+  ENTITY_TYPE_IDENTITY_SECTOR,
+  ENTITY_TYPE_LOCATION_CITY,
+  ENTITY_TYPE_LOCATION_COUNTRY,
+  ENTITY_TYPE_LOCATION_REGION,
   isStixObjectAliased,
 } from '../schema/stixDomainObject';
 import { isStixObject } from '../schema/stixCoreObject';
@@ -73,6 +78,8 @@ import { isSingleStixEmbeddedRelationship, } from '../schema/stixEmbeddedRelatio
 import { now, runtimeFieldObservableValueScript } from '../utils/format';
 import { ENTITY_TYPE_MARKING_DEFINITION } from '../schema/stixMetaObject';
 import { RELATION_ORGANIZATIONS } from '../schema/internalRelationship';
+import { getEntityFromCache } from './cache';
+import { ENTITY_TYPE_SETTINGS } from '../schema/internalObject';
 
 const ELK_ENGINE = 'elk';
 export const ES_MAX_CONCURRENCY = conf.get('elasticsearch:max_concurrency');
@@ -223,7 +230,7 @@ export const elUpdateByQueryForMigration = async (message, index, body) => {
   logApp.info(`${message} done in ${timeSec} seconds`);
 };
 
-const buildDataRestrictions = (user) => {
+const buildDataRestrictions = async (user) => {
   const must = [];
   // eslint-disable-next-line camelcase
   const must_not = [];
@@ -286,27 +293,42 @@ const buildDataRestrictions = (user) => {
     // region Handle organization restrictions
     // If user have organization management role, he can bypass this restriction.
     const isOrganizationManager = R.find((s) => s.name === KNOWLEDGE_ORGANIZATION_RESTRICT, capabilities) !== undefined;
-    if (!isOrganizationManager) {
-      if (user.organizations.length === 0) {
-        // If user have no groups, he can only access to data with no groups.
-        must_not.push({ exists: { field: buildRefRelationKey(RELATION_ORGANIZATIONS) } });
-      } else {
-        const should = user.organizations.map((m) => ({ match: { [buildRefRelationSearchKey(RELATION_ORGANIZATIONS)]: m } }));
-        const markingBool = {
+    // If platform is for specific organization, only user from this organization can access empty defined
+    const settings = await getEntityFromCache(ENTITY_TYPE_SETTINGS);
+    const isUserPartOfPlatformOrganization = settings.platform_organization
+      ? (user.organizations ?? []).includes(settings.platform_organization) : false;
+    // If user is part of the platform organization, no restriction
+    if (!isOrganizationManager && !isUserPartOfPlatformOrganization) {
+      const should = [];
+      // If no platform organization is configured, user have access to all data without organization
+      if (!settings.platform_organization) {
+        should.push({
           bool: {
-            should: [
-              {
-                bool: {
-                  must_not: [{ exists: { field: buildRefRelationSearchKey(RELATION_ORGANIZATIONS) } }],
-                },
-              },
-              ...should
-            ],
-            minimum_should_match: 1,
+            must_not: [{ exists: { field: buildRefRelationSearchKey(RELATION_ORGANIZATIONS) } }],
           },
-        };
-        must.push(markingBool);
+        });
+      } else {
+        should.push(...[
+          { match: { 'parent_types.keyword': ABSTRACT_INTERNAL_OBJECT } },
+          { match: { 'parent_types.keyword': ABSTRACT_STIX_META_OBJECT } },
+          { match: { 'parent_types.keyword': ABSTRACT_STIX_META_RELATIONSHIP } },
+          { match: { 'entity_type.keyword': ENTITY_TYPE_LOCATION_CITY } },
+          { match: { 'entity_type.keyword': ENTITY_TYPE_LOCATION_COUNTRY } },
+          { match: { 'entity_type.keyword': ENTITY_TYPE_LOCATION_REGION } },
+          { match: { 'entity_type.keyword': ENTITY_TYPE_IDENTITY_ORGANIZATION } },
+          { match: { 'entity_type.keyword': ENTITY_TYPE_IDENTITY_SECTOR } },
+          // Add individual instance and related created by
+          { match: { 'internal_id.keyword': user.individual_id } },
+          { match: { [buildRefRelationSearchKey(RELATION_CREATED_BY)]: user.individual_id } }
+        ]);
       }
+      // If not, all user can access empty organization data
+      if (user.organizations.length > 0) {
+        const shouldOrgs = user.organizations.map((m) => ({ match: { [buildRefRelationSearchKey(RELATION_ORGANIZATIONS)]: m } }));
+        should.push(...shouldOrgs);
+      }
+      const markingBool = { bool: { should, minimum_should_match: 1 } };
+      must.push(markingBool);
     }
     // endregion
   }
@@ -589,7 +611,7 @@ export const RUNTIME_ATTRIBUTES = {
   },
 };
 
-export const elCount = (user, indexName, options = {}) => {
+export const elCount = async (user, indexName, options = {}) => {
   const {
     endDate = null,
     types = null,
@@ -600,7 +622,7 @@ export const elCount = (user, indexName, options = {}) => {
     isMetaRelationship = false,
   } = options;
   let must = [];
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   must.push(...markingRestrictions.must);
   if (endDate !== null) {
     must = R.append(
@@ -732,7 +754,7 @@ export const elCount = (user, indexName, options = {}) => {
       throw DatabaseError('Count data fail', { error: err, query });
     });
 };
-export const elAggregationCount = (user, type, aggregationField, start, end, filters = []) => {
+export const elAggregationCount = async (user, type, aggregationField, start, end, filters = []) => {
   const isIdFields = aggregationField.endsWith('internal_id');
   const haveRange = start && end;
   const dateFilter = [];
@@ -762,7 +784,7 @@ export const elAggregationCount = (user, type, aggregationField, start, end, fil
     };
   }, filters);
   const must = R.concat(dateFilter, histoFilters);
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   must.push(...markingRestrictions.must);
   const query = {
     index: READ_PLATFORM_INDICES,
@@ -888,7 +910,7 @@ const elDataConverter = (esHit) => {
 
 export const elFindByFromAndTo = async (user, fromId, toId, relationshipType) => {
   const mustTerms = [];
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   mustTerms.push(...markingRestrictions.must);
   mustTerms.push({
     nested: {
@@ -1016,7 +1038,7 @@ export const elFindByIds = async (user, ids, opts = {}) => {
         };
         mustTerms.push(shouldType);
       }
-      const markingRestrictions = buildDataRestrictions(user);
+      const markingRestrictions = await buildDataRestrictions(user);
       mustTerms.push(...markingRestrictions.must);
       const query = {
         index: indices,
@@ -1123,7 +1145,7 @@ export const elAggregationRelationsCount = async (user, type, opts) => {
     ],
     filters
   );
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   must.push(...markingRestrictions.must);
   const query = {
     index: READ_RELATIONSHIPS_INDICES,
@@ -1296,7 +1318,7 @@ export const elHistogramCount = async (user, type, field, interval, start, end, 
     });
   }
   const must = R.concat(baseFilters, histogramFilters);
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   must.push(...markingRestrictions.must);
   const query = {
     index: READ_PLATFORM_INDICES,
@@ -1457,7 +1479,7 @@ export const elPaginate = async (user, indexName, options = {}) => {
   let must = [];
   let mustnot = [];
   let ordering = [];
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   must.push(...markingRestrictions.must);
   mustnot.push(...markingRestrictions.must_not);
   if (ids.length > 0) {
@@ -1722,7 +1744,7 @@ export const elLoadBy = async (user, field, value, type = null, indices = READ_D
 };
 export const elAttributeValues = async (user, field, opts = {}) => {
   const { first, orderMode = 'asc', search } = opts;
-  const markingRestrictions = buildDataRestrictions(user);
+  const markingRestrictions = await buildDataRestrictions(user);
   const isDateOrNumber = dateAttributes.includes(field) || numericOrBooleanAttributes.includes(field);
   const must = [];
   if (isNotEmptyField(search) && search.length > 0) {
