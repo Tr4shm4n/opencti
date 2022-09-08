@@ -156,7 +156,7 @@ import {
   numericAttributes,
   statsDateAttributes,
 } from '../schema/fieldDataAdapter';
-import { isStixCoreRelationship, RELATION_REVOKED_BY } from '../schema/stixCoreRelationship';
+import { isStixCoreRelationship, RELATION_GRANTED_TO, RELATION_REVOKED_BY } from '../schema/stixCoreRelationship';
 import {
   ATTRIBUTE_ADDITIONAL_NAMES,
   ATTRIBUTE_ALIASES,
@@ -217,7 +217,6 @@ import { buildFilters } from './repository';
 import { createEntityAutoEnrichment } from '../domain/enrichment';
 import { convertStoreToStix, isTrustedStixId } from './stix-converter';
 import { listAllRelations, listEntities, listRelations } from './middleware-loader';
-import { RELATION_ORGANIZATIONS } from '../schema/internalRelationship';
 import { getEntitiesFromCache } from './cache';
 
 // region global variables
@@ -292,7 +291,7 @@ const checkIfInferenceOperationIsValid = (user, element) => {
 // region bulk loading method
 // Listing handle
 const batchListThrough = async (user, sources, sourceSide, relationType, targetEntityType, opts = {}) => {
-  const { paginate = true, batched = true, first = null } = opts;
+  const { paginate = true, withInferences = true, batched = true, first = null } = opts;
   const opposite = sourceSide === 'from' ? 'to' : 'from';
   // USING ELASTIC
   const ids = Array.isArray(sources) ? sources : [sources];
@@ -314,7 +313,8 @@ const batchListThrough = async (user, sources, sourceSide, relationType, targetE
   };
   const filters = [directionInternalIdFilter, oppositeTypeFilter];
   // Resolve all relations
-  const relations = await elList(user, READ_RELATIONSHIPS_INDICES, {
+  const indices = withInferences ? READ_RELATIONSHIPS_INDICES : READ_RELATIONSHIPS_INDICES_WITHOUT_INFERRED;
+  const relations = await elList(user, indices, {
     filters,
     types: [relationType],
     connectionFormat: false,
@@ -2268,16 +2268,13 @@ const upsertElementRaw = async (user, element, type, updatePatch) => {
     const inputField = metaInputFields[fieldIndex];
     if (updatePatch[inputField] && MULTIPLE_META_RELATIONSHIPS_INPUTS.includes(inputField)) {
       const relType = FIELD_TO_META_RELATION[inputField];
-      // Only add group relation for allowed users
-      if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_ORGANIZATION_RESTRICT)) {
-        const existingInstances = element[relType] || [];
-        const instancesToCreate = R.filter((m) => !existingInstances.includes(m.internal_id), updatePatch[inputField]);
-        if (instancesToCreate.length > 0) {
-          const newRelations = instancesToCreate.map((to) => R.head(buildInstanceRelTo(to, relType)));
-          rawRelations.push(...newRelations);
-          patchInputs.push({ key: inputField, value: instancesToCreate, operation: UPDATE_OPERATION_ADD });
-          createdTargets.push({ key: inputField, instances: instancesToCreate });
-        }
+      const existingInstances = element[relType] || [];
+      const instancesToCreate = R.filter((m) => !existingInstances.includes(m.internal_id), updatePatch[inputField]);
+      if (instancesToCreate.length > 0) {
+        const newRelations = instancesToCreate.map((to) => R.head(buildInstanceRelTo(to, relType)));
+        rawRelations.push(...newRelations);
+        patchInputs.push({ key: inputField, value: instancesToCreate, operation: UPDATE_OPERATION_ADD });
+        createdTargets.push({ key: inputField, instances: instancesToCreate });
       }
     }
   }
@@ -2783,7 +2780,7 @@ const buildEntityData = async (user, input, type, opts = {}) => {
       if (input[inputField]) {
         const relType = FIELD_TO_META_RELATION[inputField];
         // Only add group relation for allowed users
-        if (relType !== RELATION_ORGANIZATIONS || userHaveCapability(user, KNOWLEDGE_ORGANIZATION_RESTRICT)) {
+        if (relType !== RELATION_GRANTED_TO || userHaveCapability(user, KNOWLEDGE_ORGANIZATION_RESTRICT)) {
           relToCreate.push(...buildInnerRelation(data, input[inputField], relType));
         }
       }
@@ -3098,6 +3095,7 @@ export const deleteInferredRuleElement = async (rule, instance, deletedDependenc
       // If current inference is only base on one rule, we can safely delete it.
       if (monoRule) {
         const { event } = await internalDeleteElementById(RULE_MANAGER_USER, instance.id);
+        logApp.info('Delete inferred element', { id: instance.id, type: instance.entity_type });
         derivedEvents.push(event);
       } else {
         // If not we need to clean the rule and keep the element for other rules.

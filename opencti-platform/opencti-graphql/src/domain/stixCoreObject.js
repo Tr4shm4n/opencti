@@ -12,7 +12,6 @@ import {
   mergeEntities,
   batchLoadThroughGetTo,
   storeLoadByIdWithRefs,
-  createRelationRaw,
 } from '../database/middleware';
 import { listEntities } from '../database/middleware-loader';
 import { findAll as relationFindAll } from './stixCoreRelationship';
@@ -50,7 +49,7 @@ import { deleteFile, loadFile, storeFileConverter, upload } from '../database/fi
 import { elUpdateElement } from '../database/engine';
 import { getInstanceIds } from '../schema/identifier';
 import { askEntityExport } from './stix';
-import { RELATION_ORGANIZATIONS } from '../schema/internalRelationship';
+import { RELATION_GRANTED_TO } from '../schema/stixCoreRelationship';
 
 export const findAll = async (user, args) => {
   let types = [];
@@ -92,7 +91,7 @@ export const batchLabels = (user, stixCoreObjectIds) => {
 };
 
 export const batchObjectOrganizations = (user, stixCoreObjectIds) => {
-  return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_ORGANIZATIONS, ENTITY_TYPE_IDENTITY_ORGANIZATION);
+  return batchListThroughGetTo(user, stixCoreObjectIds, RELATION_GRANTED_TO, ENTITY_TYPE_IDENTITY_ORGANIZATION);
 };
 
 export const batchMarkingDefinitions = (user, stixCoreObjectIds) => {
@@ -123,13 +122,7 @@ export const stixCoreObjectAddRelation = async (user, stixCoreObjectId, input) =
 
 export const addOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
   const stixCoreObject = await findById(user, stixCoreObjectId);
-  await createRelationRaw(user, { fromId: stixCoreObjectId, toId: organizationId, relationship_type: RELATION_ORGANIZATIONS });
-  return stixCoreObject;
-};
-
-export const removeOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
-  const stixCoreObject = await findById(user, stixCoreObjectId);
-  await deleteRelationsByFromAndTo(user, stixCoreObjectId, organizationId, RELATION_ORGANIZATIONS, ABSTRACT_STIX_META_RELATIONSHIP);
+  await createRelation(user, { fromId: stixCoreObjectId, toId: organizationId, relationship_type: RELATION_GRANTED_TO });
   return stixCoreObject;
 };
 
@@ -146,7 +139,9 @@ export const stixCoreObjectAddRelations = async (user, stixCoreObjectId, input) 
     input.toIds
   );
   await createRelations(user, finalInput);
-  return storeLoadById(user, stixCoreObjectId, ABSTRACT_STIX_CORE_OBJECT).then((entity) => notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, entity, user));
+  return storeLoadById(user, stixCoreObjectId, ABSTRACT_STIX_CORE_OBJECT).then((entity) => {
+    return notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, entity, user);
+  });
 };
 
 export const stixCoreObjectDeleteRelation = async (user, stixCoreObjectId, toId, relationshipType) => {
@@ -158,6 +153,15 @@ export const stixCoreObjectDeleteRelation = async (user, stixCoreObjectId, toId,
     throw FunctionalError(`Only ${ABSTRACT_STIX_META_RELATIONSHIP} can be deleted through this method.`);
   }
   await deleteRelationsByFromAndTo(user, stixCoreObjectId, toId, relationshipType, ABSTRACT_STIX_META_RELATIONSHIP);
+  return notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, stixCoreObject, user);
+};
+
+export const removeOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
+  const stixCoreObject = await storeLoadById(user, stixCoreObjectId, ABSTRACT_STIX_CORE_OBJECT);
+  if (!stixCoreObject) {
+    throw FunctionalError('Cannot delete the relation, Stix-Core-Object cannot be found.');
+  }
+  await deleteRelationsByFromAndTo(user, stixCoreObjectId, organizationId, RELATION_GRANTED_TO, ABSTRACT_STIX_META_RELATIONSHIP);
   return notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, stixCoreObject, user);
 };
 

@@ -41,7 +41,7 @@ import {
   otpUserLogin,
   otpUserActivation,
   otpUserDeactivation,
-  batchOrganizations, assignOrganizationToUser,
+  batchOrganizations, assignOrganizationToUser, userDeleteOrganizationRelation,
 } from '../domain/user';
 import { BUS_TOPICS, logApp, logAudit } from '../config/conf';
 import passport, { PROVIDERS } from '../config/providers';
@@ -53,7 +53,6 @@ import { ENTITY_TYPE_USER } from '../schema/internalObject';
 import { batchLoader } from '../database/middleware';
 import { LOGIN_ACTION } from '../config/audit';
 import { getUserSubscriptions } from '../domain/userSubscription';
-import { RELATION_MEMBER_OF } from '../schema/internalRelationship';
 
 const groupsLoader = batchLoader(batchGroups);
 const organizationsLoader = batchLoader(batchOrganizations);
@@ -74,7 +73,7 @@ const userResolvers = {
   },
   User: {
     groups: (current, _, { user }) => groupsLoader.load(current.id, user),
-    objectOrganization: (current, _, { user }) => organizationsLoader.load(current.id, user),
+    objectOrganization: (current, _, { user }) => organizationsLoader.load(current.id, user, { withInferences: false }),
     roles: (current, _, { user }) => rolesLoader.load(current.id, user),
     allowed_marking: (current, _, { user }) => getMarkings(current.id, user.capabilities),
     capabilities: (current) => getCapabilities(current.id),
@@ -150,7 +149,7 @@ const userResolvers = {
       relationAdd: ({ input }) => userAddRelation(user, id, input),
       relationDelete: ({ toId, relationship_type: relationshipType }) => userIdDeleteRelation(user, id, toId, relationshipType),
       organizationAdd: ({ organizationId }) => assignOrganizationToUser(user, id, organizationId),
-      organizationDelete: ({ organizationId }) => userIdDeleteRelation(user, id, organizationId, RELATION_MEMBER_OF),
+      organizationDelete: ({ organizationId }) => userDeleteOrganizationRelation(user, id, organizationId),
     }),
     meEdit: (_, { input, password }, { user }) => meEditField(user, user.id, input, password),
     meTokenRenew: (_, __, { user }) => userRenewToken(user, user.id),

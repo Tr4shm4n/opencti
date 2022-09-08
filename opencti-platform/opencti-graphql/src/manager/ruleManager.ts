@@ -56,6 +56,7 @@ export const buildInternalEvent = (type: string, stix: StixCoreObject): Event =>
   return {
     version: EVENT_CURRENT_VERSION,
     type,
+    scope: 'internal',
     message: 'rule internal event',
     origin: RULE_MANAGER_USER,
     data: stix,
@@ -307,7 +308,7 @@ const initRuleManager = () => {
       lock = await lockResource([RULE_ENGINE_KEY]);
       logApp.info(`[OPENCTI-MODULE] Running rule manager from ${lastEventId}`);
       // Start the stream listening
-      streamProcessor = createStreamProcessor(RULE_MANAGER_USER, 'Rule manager', ruleStreamHandler);
+      streamProcessor = createStreamProcessor(RULE_MANAGER_USER, 'Rule manager', true, ruleStreamHandler);
       await streamProcessor.start(lastEventId);
       while (syncListening) {
         await wait(WAIT_TIME_ACTION);

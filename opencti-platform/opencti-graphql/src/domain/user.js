@@ -25,6 +25,7 @@ import {
   RELATION_HAS_CAPABILITY,
   RELATION_HAS_ROLE,
   RELATION_MEMBER_OF,
+  RELATION_PARTICIPATE_TO,
 } from '../schema/internalRelationship';
 import { ABSTRACT_INTERNAL_RELATIONSHIP, OPENCTI_ADMIN_UUID, OPENCTI_SYSTEM_UUID } from '../schema/general';
 import { findAll as allMarkings } from './markingDefinition';
@@ -54,7 +55,7 @@ export const ROLE_DEFAULT = 'Default';
 
 export const userWithOrigin = (req, user) => {
   // /!\ This metadata information is used in different ways
-  // - In audit logs to identified the user
+  // - In audit logs to identify the user
   // - In stream message to also identifier the user
   // - In logging system to know the level of the error message
   const origin = {
@@ -107,7 +108,7 @@ export const batchGroups = async (user, userId, opts = {}) => {
 };
 
 export const batchOrganizations = async (user, userId, opts = {}) => {
-  return batchListThroughGetTo(user, userId, RELATION_MEMBER_OF, ENTITY_TYPE_IDENTITY_ORGANIZATION, opts);
+  return batchListThroughGetTo(user, userId, RELATION_PARTICIPATE_TO, ENTITY_TYPE_IDENTITY_ORGANIZATION, opts);
 };
 
 export const batchRoles = async (user, userId) => {
@@ -268,7 +269,7 @@ const assignRoleToUser = async (user, userId, roleName) => {
 
 export const assignOrganizationToUser = async (user, userId, organizationId) => {
   // TODO Check is valid organization
-  const assignInput = { fromId: userId, toId: organizationId, relationship_type: RELATION_MEMBER_OF };
+  const assignInput = { fromId: userId, toId: organizationId, relationship_type: RELATION_PARTICIPATE_TO };
   await createRelation(user, assignInput);
   return user;
 };
@@ -473,6 +474,17 @@ export const userIdDeleteRelation = async (user, userId, toId, relationshipType)
   return userDeleteRelation(user, userData, toId, relationshipType);
 };
 
+export const userDeleteOrganizationRelation = async (user, userId, toId) => {
+  const targetUser = await storeLoadById(user, userId, ENTITY_TYPE_USER);
+  if (!targetUser) {
+    throw FunctionalError('Cannot delete the relation, User cannot be found.');
+  }
+  await deleteRelationsByFromAndTo(user, userId, toId, RELATION_PARTICIPATE_TO, ABSTRACT_INTERNAL_RELATIONSHIP);
+  const operation = convertRelationToAction(RELATION_PARTICIPATE_TO, false);
+  logAudit.info(user, operation, { from: userId, to: toId, type: RELATION_PARTICIPATE_TO });
+  return notify(BUS_TOPICS[ENTITY_TYPE_USER].EDIT_TOPIC, targetUser, user);
+};
+
 export const loginFromProvider = async (userInfo, providerRoles = [], providerGroups = []) => {
   const { email, name: providedName, firstname, lastname } = userInfo;
   if (isEmptyField(email)) {
@@ -481,7 +493,7 @@ export const loginFromProvider = async (userInfo, providerRoles = [], providerGr
   const name = isEmptyField(providedName) ? email : providedName;
   const user = await elLoadBy(SYSTEM_USER, 'user_email', email, ENTITY_TYPE_USER);
   if (!user) {
-    // If user doesnt exists, create it. Providers are trusted
+    // If user doesn't exist, create it. Providers are trusted
     const newUser = { name, firstname, lastname, user_email: email.toLowerCase(), external: true };
     return addUser(SYSTEM_USER, newUser).then(() => {
       // After user creation, reapply login to manage roles and groups

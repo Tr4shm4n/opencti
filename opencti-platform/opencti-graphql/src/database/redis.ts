@@ -14,7 +14,7 @@ import {
   isInferredIndex,
   waitInSec,
 } from './utils';
-import { isStixData } from '../schema/stixCoreObject';
+import { isBasicData, isStixData } from '../schema/stixCoreObject';
 import { EVENT_TYPE_CREATE, EVENT_TYPE_DELETE, EVENT_TYPE_MERGE, EVENT_TYPE_UPDATE } from './rabbitmq';
 import { DatabaseError, FunctionalError, UnsupportedError } from '../config/errors';
 import { now, utcDate } from '../utils/format';
@@ -25,7 +25,6 @@ import { convertStoreToStix } from './stix-converter';
 import type { StoreObject, StoreRelation } from '../types/store';
 import type { AuthUser } from '../types/user';
 import type {
-  CommitContext,
   CreateEventOpts,
   DeleteEvent,
   DeleteEventOpts,
@@ -38,6 +37,7 @@ import type {
 import type { StixCoreObject } from '../types/stix-common';
 import type { EditContext } from '../generated/graphql';
 import { BYPASS } from '../utils/access';
+import { RELATION_PARTICIPATE_TO } from '../schema/internalRelationship';
 
 const USE_SSL = booleanConf('redis:use_ssl', false);
 const INCLUDE_INFERENCES = booleanConf('redis:include_inferences', false);
@@ -51,7 +51,12 @@ const CONTEXT_DATABASE = 1; // locks / user context
 const REDIS_EXPIRE_TIME = 90;
 const MAX_RETRY_COMMAND = 10;
 
-const isStreamPublishable = (instance: StoreObject) => INCLUDE_INFERENCES || !isInferredIndex(instance._index);
+const allowedInternalEventTypes = [RELATION_PARTICIPATE_TO];
+const isStreamPublishable = (instance: StoreObject) => {
+  const isInferredInstance = isInferredIndex(instance._index);
+  if (isInferredInstance && !INCLUDE_INFERENCES) return false;
+  return isStixData(instance) || allowedInternalEventTypes.includes(instance.entity_type);
+};
 
 const redisOptions = (database: number): RedisOptions => ({
   keyPrefix: REDIS_PREFIX,
@@ -377,7 +382,9 @@ const mapJSToStream = (event: any) => {
   });
   return cmdArgs;
 };
-
+const isDataStreamable = (instance: StoreObject, opts: { publishStreamEvent?: boolean }) => {
+  return isStixData(instance) && (opts.publishStreamEvent === undefined || opts.publishStreamEvent);
+};
 const pushToStream = async (client: Redis, instance: StoreObject, event: Event) => {
   if (isStreamPublishable(instance)) {
     if (streamTrimming) {
@@ -397,6 +404,7 @@ const buildMergeEvent = (user: AuthUser, previous: StoreObject, instance: StoreO
   return {
     version: EVENT_CURRENT_VERSION,
     type: EVENT_TYPE_MERGE,
+    scope: 'external',
     message,
     origin: user.origin,
     data: currentStix,
@@ -419,7 +427,7 @@ export const storeMergeEvent = async (user: AuthUser, initialInstance: StoreObje
   }
 };
 // Update
-const buildUpdateEvent = (user: AuthUser, previous: StoreObject, instance: StoreObject, message: string, commit: CommitContext | undefined): UpdateEvent => {
+const buildUpdateEvent = (user: AuthUser, previous: StoreObject, instance: StoreObject, message: string, opts: UpdateEventOpts): UpdateEvent => {
   // Build and send the event
   const stix = convertStoreToStix(instance) as StixCoreObject;
   const previousStix = convertStoreToStix(previous) as StixCoreObject;
@@ -434,10 +442,11 @@ const buildUpdateEvent = (user: AuthUser, previous: StoreObject, instance: Store
   return {
     version: EVENT_CURRENT_VERSION,
     type: EVENT_TYPE_UPDATE,
+    scope: isDataStreamable(instance, opts) ? 'external' : 'internal',
     message,
     origin: user.origin,
     data: stix,
-    commit,
+    commit: opts.commit,
     context: {
       patch,
       reverse_patch: previousPatch
@@ -446,11 +455,9 @@ const buildUpdateEvent = (user: AuthUser, previous: StoreObject, instance: Store
 };
 export const storeUpdateEvent = async (user: AuthUser, previous: StoreObject, instance: StoreObject, message: string, opts: UpdateEventOpts = {}) => {
   try {
-    if (isStixData(instance)) {
-      const event = buildUpdateEvent(user, previous, instance, message, opts.commit);
-      if (opts.publishStreamEvent === undefined || opts.publishStreamEvent) {
-        await pushToStream(clientBase, instance, event);
-      }
+    if (isBasicData(instance)) {
+      const event = buildUpdateEvent(user, previous, instance, message, opts);
+      await pushToStream(clientBase, instance, event);
       return event;
     }
     return undefined;
@@ -459,11 +466,12 @@ export const storeUpdateEvent = async (user: AuthUser, previous: StoreObject, in
   }
 };
 // Create
-const buildCreateEvent = (user: AuthUser, instance: StoreObject, message: string): Event => {
+export const buildCreateEvent = (user: AuthUser, instance: StoreObject, message: string, opts: CreateEventOpts): Event => {
   const stix = convertStoreToStix(instance) as StixCoreObject;
   return {
     version: EVENT_CURRENT_VERSION,
     type: EVENT_TYPE_CREATE,
+    scope: isDataStreamable(instance, opts) ? 'external' : 'internal',
     message,
     origin: user.origin,
     data: stix,
@@ -471,13 +479,11 @@ const buildCreateEvent = (user: AuthUser, instance: StoreObject, message: string
 };
 export const storeCreateRelationEvent = async (user: AuthUser, instance: StoreRelation, opts: CreateEventOpts = {}) => {
   try {
-    if (isStixData(instance)) {
+    if (isBasicData(instance)) {
       const { withoutMessage = false } = opts;
       const message = withoutMessage ? '-' : generateCreateMessage(instance);
-      const event = buildCreateEvent(user, instance, message);
-      if (opts.publishStreamEvent === undefined || opts.publishStreamEvent) {
-        await pushToStream(clientBase, instance, event);
-      }
+      const event = buildCreateEvent(user, instance, message, opts);
+      await pushToStream(clientBase, instance, event);
       return event;
     }
     return undefined;
@@ -487,11 +493,9 @@ export const storeCreateRelationEvent = async (user: AuthUser, instance: StoreRe
 };
 export const storeCreateEntityEvent = async (user: AuthUser, instance: StoreObject, message: string, opts: CreateEventOpts = {}) => {
   try {
-    if (isStixData(instance)) {
-      const event = buildCreateEvent(user, instance, message);
-      if (opts.publishStreamEvent === undefined || opts.publishStreamEvent) {
-        await pushToStream(clientBase, instance, event);
-      }
+    if (isBasicData(instance)) {
+      const event = buildCreateEvent(user, instance, message, opts);
+      await pushToStream(clientBase, instance, event);
       return event;
     }
     return undefined;
@@ -501,11 +505,18 @@ export const storeCreateEntityEvent = async (user: AuthUser, instance: StoreObje
 };
 
 // Delete
-const buildDeleteEvent = async (user: AuthUser, instance: StoreObject, message: string, deletions: Array<StoreObject>): Promise<DeleteEvent> => {
+const buildDeleteEvent = async (
+  user: AuthUser,
+  instance: StoreObject,
+  message: string,
+  deletions: Array<StoreObject>,
+  opts: DeleteEventOpts
+): Promise<DeleteEvent> => {
   const stix = convertStoreToStix(instance) as StixCoreObject;
   return {
     version: EVENT_CURRENT_VERSION,
     type: EVENT_TYPE_DELETE,
+    scope: isDataStreamable(instance, opts) ? 'external' : 'internal',
     message,
     origin: user.origin,
     data: stix,
@@ -516,12 +527,10 @@ const buildDeleteEvent = async (user: AuthUser, instance: StoreObject, message: 
 };
 export const storeDeleteEvent = async (user: AuthUser, instance: StoreObject, deletions: Array<StoreObject>, opts: DeleteEventOpts = {}) => {
   try {
-    if (isStixData(instance)) {
+    if (isBasicData(instance)) {
       const message = generateDeleteMessage(instance);
-      const event = await buildDeleteEvent(user, instance, message, deletions);
-      if (opts.publishStreamEvent === undefined || opts.publishStreamEvent) {
-        await pushToStream(clientBase, instance, event);
-      }
+      const event = await buildDeleteEvent(user, instance, message, deletions, opts);
+      await pushToStream(clientBase, instance, event);
       return event;
     }
     return undefined;
@@ -548,14 +557,17 @@ export const fetchStreamInfo = async () => {
   return { lastEventId: lastId, firstEventId: firstId, firstEventDate, lastEventDate, streamSize: info.length };
 };
 
-const processStreamResult = async (user: AuthUser, results: Array<any>, callback: any) => {
+const processStreamResult = async (user: AuthUser, results: Array<any>, callback: any, withInternal: boolean) => {
   const streamData = R.map((r) => mapStreamToJS(r), results);
-  const lastEventId = results.length > 0 ? R.last(streamData)?.id : `${new Date().getTime()}-0`;
+  const baseData = streamData.filter((s) => {
+    return withInternal ? true : (s.data.scope ?? 'external') === 'external';
+  });
+  const lastEventId = baseData.length > 0 ? R.last(baseData)?.id : `${new Date().getTime()}-0`;
   // Filter data with user markings
   const isBypass = R.find((s) => s.name === BYPASS, user.capabilities || []) !== undefined;
   if (!isBypass) {
     const userMarkings = user.allowed_marking.map((m) => m.standard_id);
-    const filteredEvents = streamData.filter((s) => {
+    const filteredEvents = baseData.filter((s) => {
       const dataMarkings = s.data.data.object_marking_refs ?? [];
       if (dataMarkings.length === 0) return true;
       return dataMarkings.some((r) => userMarkings.includes(r));
@@ -564,7 +576,7 @@ const processStreamResult = async (user: AuthUser, results: Array<any>, callback
     return lastEventId;
   }
   // User can bypass any right
-  await callback(streamData, lastEventId);
+  await callback(baseData, lastEventId);
   return lastEventId;
 };
 
@@ -576,7 +588,7 @@ export interface StreamProcessor {
   start: (from: string | undefined) => Promise<void>;
   shutdown: () => Promise<void>;
 }
-export const createStreamProcessor = (user: AuthUser, provider: string, callback: any, maxRange = MAX_RANGE_MESSAGES): StreamProcessor => {
+export const createStreamProcessor = (user: AuthUser, provider: string, withInternal: boolean, callback: any): StreamProcessor => {
   let client: Redis;
   let startEventId: string;
   let processingLoopPromise: Promise<void>;
@@ -591,14 +603,22 @@ export const createStreamProcessor = (user: AuthUser, provider: string, callback
     }
     try {
       // Consume the data stream
-      const streamResult = await client.xread('COUNT', maxRange, 'BLOCK', STREAM_BATCH_TIME, 'STREAMS', REDIS_STREAM_NAME, startEventId);
+      const streamResult = await client.xread(
+        'COUNT',
+        MAX_RANGE_MESSAGES,
+        'BLOCK',
+        STREAM_BATCH_TIME,
+        'STREAMS',
+        REDIS_STREAM_NAME,
+        startEventId
+      );
       // Process the event results
       if (streamResult && streamResult.length > 0) {
         const [, results] = streamResult[0];
-        const lastElementId = await processStreamResult(user, results, callback);
+        const lastElementId = await processStreamResult(user, results, callback, withInternal);
         startEventId = lastElementId || startEventId;
       } else {
-        await processStreamResult(user, [], callback);
+        await processStreamResult(user, [], callback, withInternal);
       }
     } catch (err) {
       logApp.error(`Error in redis streams read for ${provider}`, { error: err });
