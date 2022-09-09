@@ -1897,6 +1897,7 @@ const createRuleDataPatch = (instance) => {
   return patch;
 };
 const upsertEntityRule = async (instance, input, opts = {}) => {
+  logApp.info('Upsert inferred entity', { input });
   return patchAttribute(RULE_MANAGER_USER, instance.id, instance.entity_type, input, opts);
 };
 const upsertRelationRule = async (instance, input, opts = {}) => {
