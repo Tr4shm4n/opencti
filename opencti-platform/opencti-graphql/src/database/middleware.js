@@ -4,6 +4,7 @@ import DataLoader from 'dataloader';
 import { Promise } from 'bluebird';
 import {
   DatabaseError,
+  ForbiddenAccess,
   FunctionalError,
   LockTimeoutError,
   MissingReferenceError,
@@ -155,7 +156,7 @@ import {
   numericAttributes,
   statsDateAttributes,
 } from '../schema/fieldDataAdapter';
-import { isStixCoreRelationship, RELATION_REVOKED_BY } from '../schema/stixCoreRelationship';
+import { isStixCoreRelationship, RELATION_GRANTED_TO, RELATION_REVOKED_BY } from '../schema/stixCoreRelationship';
 import {
   ATTRIBUTE_ADDITIONAL_NAMES,
   ATTRIBUTE_ALIASES,
@@ -196,7 +197,7 @@ import {
   BYPASS,
   BYPASS_REFERENCE,
   filterElementsAccordingToUser,
-  isUserCanAccessElement,
+  isUserCanAccessElement, KNOWLEDGE_ORGANIZATION_RESTRICT,
   SYSTEM_USER
 } from '../utils/access';
 import { isRuleUser, RULE_MANAGER_USER, RULES_ATTRIBUTES_BEHAVIOR } from '../rules/rules';
@@ -2500,6 +2501,11 @@ export const createRelationRaw = async (user, input, opts = {}) => {
   let lock;
   const { fromRule, locks = [] } = opts;
   const { fromId, toId, relationship_type: relationshipType } = input;
+  // Granted to relationship is protected.
+  if (relationshipType === RELATION_GRANTED_TO && !userHaveCapability(user, KNOWLEDGE_ORGANIZATION_RESTRICT)) {
+    throw ForbiddenAccess();
+  }
+  // Enforce reference controls
   if (isStixCoreRelationship(relationshipType)) {
     const enforceReferences = conf.get('app:enforce_references');
     if (enforceReferences && enforceReferences.includes('stix-core-relationship')) {
