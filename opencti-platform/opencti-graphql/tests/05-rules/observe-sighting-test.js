@@ -60,7 +60,7 @@ describe('Observed sighting rule', () => {
       expect(cbrickToAnssi.last_seen).toBe('2020-02-25T09:02:29.040Z');
       expect(cbrickToAnssi.attribute_count).toBe(1);
       expect(cbrickToAnssi.confidence).toBe(15);
-      expect(cbrickToAnssi.i_inference_weight).toBeUndefined();
+      expect(cbrickToAnssi.i_inference_weight).toBe(1);
       expect((cbrickToAnssi.object_marking_refs || []).length).toBe(0);
       // Change the organization
       await patchAttribute(SYSTEM_USER, OBSERVED_DATA, ENTITY_TYPE_CONTAINER_OBSERVED_DATA, { createdBy: MITRE });
@@ -82,7 +82,7 @@ describe('Observed sighting rule', () => {
       expect(cbrickToMitreRescan.last_seen).toBe('2020-02-25T09:02:29.040Z');
       expect(cbrickToMitreRescan.attribute_count).toBe(1);
       expect(cbrickToMitreRescan.confidence).toBe(15);
-      expect(cbrickToMitreRescan.i_inference_weight).toBeUndefined();
+      expect(cbrickToMitreRescan.i_inference_weight).toBe(1);
       expect((cbrickToMitreRescan.object_marking_refs || []).length).toBe(0);
       // Cleanup
       await internalDeleteElementById(SYSTEM_USER, cbrickToFile.internal_id);
