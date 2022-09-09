@@ -2877,7 +2877,7 @@ export const createEntityRaw = async (user, input, type, opts = {}) => {
           throw UnsupportedError('Cant upsert inferred entity. Too many entities resolved', { input, entityIds });
         }
         // If upsert come from a rule, do a specific upsert.
-        return upsertEntityRule(R.head(filteredEntities), resolvedInput, { ...opts, locks: participantIds });
+        return upsertEntityRule(R.head(filteredEntities), input, { ...opts, locks: participantIds });
       }
       if (filteredEntities.length === 1) {
         dataEntity = await upsertElementRaw(user, R.head(filteredEntities), type, resolvedInput);
