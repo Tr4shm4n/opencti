@@ -111,7 +111,6 @@ import {
   INPUT_LABELS,
   INPUT_MARKINGS,
   INPUT_OBJECTS,
-  INPUT_ORGANIZATIONS,
   INTERNAL_IDS_ALIASES,
   INTERNAL_PREFIX,
   MULTIPLE_META_RELATIONSHIPS_INPUTS,
@@ -1913,7 +1912,7 @@ const upsertRelationRule = async (instance, input, opts = {}) => {
   const ruleInstance = R.mergeRight(instance, rulePatch);
   const innerPatch = createRuleDataPatch(ruleInstance);
   const patch = { ...rulePatch, ...innerPatch };
-  logApp.debug('Upsert inferred relation', { relation: patch });
+  logApp.info('Upsert inferred relation', { relation: patch });
   return patchAttribute(RULE_MANAGER_USER, instance.id, instance.entity_type, patch, opts);
 };
 // endregion
@@ -2664,7 +2663,7 @@ export const createInferredRelation = async (input, ruleContent) => {
   const instance = { fromId, toId, entity_type: relationship_type, relationship_type, [ruleContent.field]: [ruleContent.content] };
   const patch = createRuleDataPatch(instance);
   const inputRelation = { ...instance, ...patch };
-  logApp.debug('Create inferred relation', { relation: inputRelation });
+  logApp.info('Create inferred relation', { relation: inputRelation });
   const data = await createRelationRaw(RULE_MANAGER_USER, inputRelation, opts);
   return data.event;
 };
@@ -2702,8 +2701,7 @@ const buildEntityData = async (user, input, type, opts = {}) => {
     R.dissoc(INPUT_LABELS),
     R.dissoc(INPUT_KILLCHAIN),
     R.dissoc(INPUT_EXTERNAL_REFS),
-    R.dissoc(INPUT_OBJECTS),
-    R.dissoc(INPUT_ORGANIZATIONS)
+    R.dissoc(INPUT_OBJECTS)
   )(input);
   if (inferred) {
     // Simply add the rule
@@ -2981,7 +2979,7 @@ export const createInferredEntity = async (input, ruleContent, type) => {
   const instance = { standard_id: standardId, ...input, [ruleContent.field]: [ruleContent.content] };
   const patch = createRuleDataPatch(instance);
   const inputEntity = { ...instance, ...patch };
-  logApp.debug('Create inferred entity', { entity: inputEntity });
+  logApp.info('Create inferred entity', { entity: inputEntity });
   return createEntityRaw(RULE_MANAGER_USER, inputEntity, type, opts);
 };
 // endregion
