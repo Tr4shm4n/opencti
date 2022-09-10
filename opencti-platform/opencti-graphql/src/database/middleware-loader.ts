@@ -302,6 +302,11 @@ export const listEntities = async <T extends StoreProxyEntity>(user: AuthUser, e
   const paginateArgs = buildEntityFilters({ entityTypes, ...args });
   return elPaginate(user, indices, paginateArgs);
 };
+export const listAllEntities = async <T extends StoreProxyEntity>(user: AuthUser, entityTypes: Array<string>, args: EntityOptions<T> = {}): Promise<Array<T>> => {
+  const { indices = READ_ENTITIES_INDICES } = args;
+  const paginateArgs = buildEntityFilters({ entityTypes, ...args, connectionFormat: false });
+  return elList(user, indices, paginateArgs);
+};
 
 export const listEntitiesPaginated = async <T extends StoreProxyEntity>(user: AuthUser, entityTypes: Array<string>, args:EntityOptions<T> = {}):
 Promise<StoreProxyConnection<T>> => {
