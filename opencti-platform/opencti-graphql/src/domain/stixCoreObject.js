@@ -12,6 +12,7 @@ import {
   mergeEntities,
   batchLoadThroughGetTo,
   storeLoadByIdWithRefs,
+  updateAttribute,
 } from '../database/middleware';
 import { listEntities } from '../database/middleware-loader';
 import { findAll as relationFindAll } from './stixCoreRelationship';
@@ -19,11 +20,16 @@ import { lockResource, notify, storeUpdateEvent } from '../database/redis';
 import { BUS_TOPICS } from '../config/conf';
 import { FunctionalError, LockTimeoutError, TYPE_LOCK_ERROR, UnsupportedError } from '../config/errors';
 import { isStixCoreObject } from '../schema/stixCoreObject';
-import { ABSTRACT_STIX_CORE_OBJECT, ABSTRACT_STIX_META_RELATIONSHIP, ENTITY_TYPE_IDENTITY } from '../schema/general';
+import {
+  ABSTRACT_STIX_CORE_OBJECT,
+  ABSTRACT_STIX_META_RELATIONSHIP,
+  ENTITY_TYPE_IDENTITY,
+  INPUT_GRANTED_REFS
+} from '../schema/general';
 import {
   isStixMetaRelationship,
   RELATION_CREATED_BY,
-  RELATION_EXTERNAL_REFERENCE,
+  RELATION_EXTERNAL_REFERENCE, RELATION_GRANTED_TO,
   RELATION_KILL_CHAIN_PHASE,
   RELATION_OBJECT,
   RELATION_OBJECT_LABEL,
@@ -49,7 +55,7 @@ import { deleteFile, loadFile, storeFileConverter, upload } from '../database/fi
 import { elUpdateElement } from '../database/engine';
 import { getInstanceIds } from '../schema/identifier';
 import { askEntityExport } from './stix';
-import { RELATION_GRANTED_TO } from '../schema/stixCoreRelationship';
+import { UPDATE_OPERATION_ADD, UPDATE_OPERATION_REMOVE } from '../database/utils';
 
 export const findAll = async (user, args) => {
   let types = [];
@@ -122,8 +128,9 @@ export const stixCoreObjectAddRelation = async (user, stixCoreObjectId, input) =
 
 export const addOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
   const stixCoreObject = await findById(user, stixCoreObjectId);
-  await createRelation(user, { fromId: stixCoreObjectId, toId: organizationId, relationship_type: RELATION_GRANTED_TO });
-  return stixCoreObject;
+  const updates = [{ key: INPUT_GRANTED_REFS, value: [organizationId], operation: UPDATE_OPERATION_ADD }];
+  const data = await updateAttribute(user, stixCoreObjectId, stixCoreObject.entity_type, updates);
+  return notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, data.element, user);
 };
 
 export const stixCoreObjectAddRelations = async (user, stixCoreObjectId, input) => {
@@ -157,12 +164,10 @@ export const stixCoreObjectDeleteRelation = async (user, stixCoreObjectId, toId,
 };
 
 export const removeOrganizationRestriction = async (user, stixCoreObjectId, organizationId) => {
-  const stixCoreObject = await storeLoadById(user, stixCoreObjectId, ABSTRACT_STIX_CORE_OBJECT);
-  if (!stixCoreObject) {
-    throw FunctionalError('Cannot delete the relation, Stix-Core-Object cannot be found.');
-  }
-  await deleteRelationsByFromAndTo(user, stixCoreObjectId, organizationId, RELATION_GRANTED_TO, ABSTRACT_STIX_META_RELATIONSHIP);
-  return notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, stixCoreObject, user);
+  const stixCoreObject = await findById(user, stixCoreObjectId);
+  const updates = [{ key: INPUT_GRANTED_REFS, value: [organizationId], operation: UPDATE_OPERATION_REMOVE }];
+  const data = await updateAttribute(user, stixCoreObjectId, stixCoreObject.entity_type, updates);
+  return notify(BUS_TOPICS[ABSTRACT_STIX_CORE_OBJECT].EDIT_TOPIC, data.element, user);
 };
 
 export const stixCoreObjectDelete = async (user, stixCoreObjectId) => {

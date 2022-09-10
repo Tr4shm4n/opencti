@@ -609,7 +609,7 @@ const buildSessionUser = (user, provider) => {
     external: user.external,
     login_provider: provider,
     capabilities: user.capabilities.map((c) => ({ id: c.id, internal_id: c.internal_id, name: c.name })),
-    organizations: user.organizations.map((m) => m.internal_id),
+    organizations: user.organizations.map((m) => m.standard_id),
     allowed_marking: user.allowed_marking.map((m) => ({
       id: m.id,
       standard_id: m.standard_id,

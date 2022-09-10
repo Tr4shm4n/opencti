@@ -30,7 +30,7 @@ import {
   INPUT_CREATED_BY,
   INPUT_DOMAIN_FROM,
   INPUT_DOMAIN_TO,
-  INPUT_EXTERNAL_REFS,
+  INPUT_EXTERNAL_REFS, INPUT_GRANTED_REFS,
   INPUT_KILLCHAIN,
   INPUT_LABELS,
   INPUT_MARKINGS,
@@ -64,6 +64,7 @@ interface StoreBase {
   x_opencti_stix_ids?: Array<StixId>;
   x_opencti_workflow_id?: string;
   [INPUT_LINKED]?: Array<BasicStoreObject>;
+  [INPUT_GRANTED_REFS]?: Array<BasicStoreObject>;
 }
 
 interface StoreMarkingDefinition extends StoreBase {
@@ -233,6 +234,7 @@ interface BasicStoreEntity extends StoreProxyEntity {
   source_name: string;
   external_id: string;
   lastEventId: string;
+  platform_organization: string;
   x_opencti_reliability: OrganizationReliability;
   x_opencti_organization_type: string;
   x_opencti_attack_vector: string;
