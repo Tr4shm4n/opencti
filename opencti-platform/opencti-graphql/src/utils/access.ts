@@ -20,6 +20,7 @@ export const SYSTEM_USER: AuthUser = {
   origin: {},
   roles: [{ name: ROLE_ADMINISTRATOR }],
   capabilities: [{ name: BYPASS }],
+  organizations: [],
   allowed_marking: [],
   all_marking: [],
 };
@@ -32,6 +33,7 @@ export const RETENTION_MANAGER_USER: AuthUser = {
   origin: {},
   roles: [{ name: ROLE_ADMINISTRATOR }],
   capabilities: [{ name: BYPASS }],
+  organizations: [],
   allowed_marking: [],
   all_marking: [],
 };
