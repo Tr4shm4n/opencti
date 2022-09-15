@@ -16,6 +16,7 @@ export const EVENT_TYPE_CREATE = 'create';
 export const EVENT_TYPE_UPDATE = 'update';
 export const EVENT_TYPE_MERGE = 'merge';
 export const EVENT_TYPE_DELETE = 'delete';
+export const EVENT_TYPE_DELETE_DEPENDENCIES = 'delete-dependencies';
 
 const USE_SSL = booleanConf('rabbitmq:use_ssl', false);
 const QUEUE_TYPE = conf.get('rabbitmq:queue_type');
