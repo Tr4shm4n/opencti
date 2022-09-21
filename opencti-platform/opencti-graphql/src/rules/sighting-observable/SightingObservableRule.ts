@@ -16,6 +16,7 @@ import { RELATION_BASED_ON } from '../../schema/stixCoreRelationship';
 import { ENTITY_TYPE_INDICATOR } from '../../schema/stixDomainObject';
 import type { RuleRuntime } from '../../types/rules';
 import { ENTITY_TYPE_IDENTITY, ENTITY_TYPE_LOCATION } from '../../schema/general';
+import type { RelationCreation } from '../../types/inputs';
 
 /*
 'If **observable A** is `sighted` in **identity/location B** and '
@@ -56,10 +57,10 @@ const sightingObservableRuleBuilder = (): RuleRuntime => {
           last_seen: range.end,
           objectMarking: elementMarkings
         });
-        const event = await createInferredRelation(input, ruleContent);
+        const inferredRelation = await createInferredRelation(input, ruleContent) as RelationCreation;
         // Re inject event if needed
-        if (event) {
-          events.push(event);
+        if (inferredRelation.event) {
+          events.push(inferredRelation.event);
         }
       }
     };
@@ -103,10 +104,10 @@ const sightingObservableRuleBuilder = (): RuleRuntime => {
           stop_time: range.end,
           objectMarking: elementMarkings
         });
-        const event = await createInferredRelation(input, ruleContent);
+        const inferredRelation = await createInferredRelation(input, ruleContent) as RelationCreation;
         // Re inject event if needed
-        if (event) {
-          events.push(event);
+        if (inferredRelation.event) {
+          events.push(inferredRelation.event);
         }
       }
     };

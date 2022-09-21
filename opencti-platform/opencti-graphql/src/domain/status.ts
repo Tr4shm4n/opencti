@@ -19,6 +19,7 @@ import type { AuthUser } from '../types/user';
 import { notify } from '../database/redis';
 import { BUS_TOPICS } from '../config/conf';
 import type { BasicStoreEntity, BasicWorkflowStatus } from '../types/store';
+import type { StatusInput, StatusTemplateInput } from '../types/inputs';
 
 export const findTemplateById = (user: AuthUser, statusTemplateId: string): StatusTemplate => {
   return storeLoadById(user, statusTemplateId, ENTITY_TYPE_STATUS_TEMPLATE) as unknown as StatusTemplate;

@@ -21,6 +21,7 @@ import type { BasicStoreEntity, BasicStoreRelation, StoreObject } from '../../ty
 import { STIX_EXT_OCTI } from '../../types/stix-extensions';
 import { listAllRelations } from '../../database/middleware-loader';
 import type { Event } from '../../types/event';
+import type { RelationCreation } from '../../types/inputs';
 
 // 'If **observed-data A** (`created-by` **identity X**) have `object` **observable B** and **indicator C** ' +
 // 'is `based-on` **observable B**, then **indicator C** is `sighted` in **identity X**.';
@@ -86,10 +87,10 @@ const ruleObserveSightingBuilder = (): RuleRuntime => {
             confidence,
             objectMarking: elementMarkings,
           });
-          const event = await createInferredRelation(input, ruleContent);
+          const inferredRelation = await createInferredRelation(input, ruleContent) as RelationCreation;
           // Re inject event if needed
-          if (event) {
-            events.push(event);
+          if (inferredRelation.event) {
+            events.push(inferredRelation.event);
           }
         }
       }
@@ -97,7 +98,7 @@ const ruleObserveSightingBuilder = (): RuleRuntime => {
     return events;
   };
   const handleObservedDataUpsert = async (observedData: StixObservedData) => {
-    const events = [];
+    const events: Array<Event> = [];
     const { created_by_ref: organizationId } = observedData;
     const { id: observedDataId } = observedData.extensions[STIX_EXT_OCTI];
     const { number_observed, first_observed, last_observed, confidence } = observedData;
@@ -135,10 +136,10 @@ const ruleObserveSightingBuilder = (): RuleRuntime => {
             confidence,
             objectMarking: elementMarkings,
           });
-          const event = await createInferredRelation(input, ruleContent);
+          const inferredRelation = await createInferredRelation(input, ruleContent) as RelationCreation;
           // Re inject event if needed
-          if (event) {
-            events.push(event);
+          if (inferredRelation.event) {
+            events.push(inferredRelation.event);
           }
         }
       }

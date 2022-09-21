@@ -11,6 +11,7 @@ import type { Event } from '../../types/event';
 import { STIX_EXT_OCTI } from '../../types/stix-extensions';
 import type { BasicStoreRelation, StoreObject } from '../../types/store';
 import { RELATION_OBJECT_MARKING } from '../../schema/stixMetaRelationship';
+import type { RelationCreation } from '../../types/inputs';
 
 const ruleRelatedObservableBuilder = () => {
   // Execution
@@ -46,9 +47,9 @@ const ruleRelatedObservableBuilder = () => {
           objectMarking: elementMarkings,
         });
         const input = { fromId: targetRef, toId, relationship_type: RELATION_RELATED_TO };
-        const event = await createInferredRelation(input, ruleContent);
-        if (event) {
-          events.push(event as Event);
+        const inferredRelation = await createInferredRelation(input, ruleContent) as RelationCreation;
+        if (inferredRelation.event) {
+          events.push(inferredRelation.event);
         }
         // -----------------------------------------------------------------------------------------------------------
         // Create relation TO = FROM
@@ -60,9 +61,9 @@ const ruleRelatedObservableBuilder = () => {
           objectMarking: elementMarkings,
         });
         const reverseInput = { fromId: toId, toId: targetRef, relationship_type: RELATION_RELATED_TO };
-        const reverseEvent = await createInferredRelation(reverseInput, reverseRuleContent);
-        if (reverseEvent) {
-          events.push(reverseEvent as Event);
+        const reverseInferredRelation = await createInferredRelation(reverseInput, reverseRuleContent) as RelationCreation;
+        if (reverseInferredRelation.event) {
+          events.push(reverseInferredRelation.event);
         }
       }
     };

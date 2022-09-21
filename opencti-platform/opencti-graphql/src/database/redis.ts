@@ -308,7 +308,7 @@ export const lockResource = async (resources: Array<string>, automaticExtension 
           await lock.release();
         }
       } catch (e) {
-        logApp.warn('[REDIS] Failed to unlock resource', { error: e, locks });
+        logApp.warn('[REDIS] Failed to unlock resource', { locks });
       }
     },
   };
